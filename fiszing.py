@@ -14,17 +14,21 @@ class FlashcardsApp:
         self.flashcards = {}
         self.current_flashcards_filename = None
 
-        self.label = tk.Label(master, text="Fiszing", font=("Verdana", 18))
+        self.label = tk.Label(master, text="FISZING", font=("Verdana", 18))
         self.label.pack(pady=20)
 
         self.new_set_button = tk.Button(master, text="Make a new set of cards", command=self.make_new_set, font=("Verdana", 14))
         self.new_set_button.pack()
+
+        self.see_all_sets_button = tk.Button(master, text="See all sets", command=self.see_all_sets, font=("Verdana", 14))
+        self.see_all_sets_button.pack()
 
         self.name_entry = None
         self.term_entry = None
         self.definition_entry = None
         self.confirm_button = None
         self.return_button = None
+        self.set_buttons = []
 
     def make_new_set(self):
         self.name_entry = tk.Entry(self.master, font=("Verdana", 12))
@@ -37,6 +41,7 @@ class FlashcardsApp:
         self.return_button.pack(pady=10)
 
         self.new_set_button.pack_forget()  # Ukryj przycisk "Make a new set of cards"
+        self.see_all_sets_button.pack_forget()
 
     def create_new_set(self):
         name = self.name_entry.get()
@@ -93,25 +98,50 @@ class FlashcardsApp:
                 json.dump(self.flashcards, file)
 
     def return_to_main_window(self):
-        if self.name_entry:
-            self.name_entry.destroy()
-            self.flashcards_label.destroy()
-            self.confirm_button.destroy()
-            self.return_button.destroy()
+        # Usuń wszystkie elementy z ekranu, z wyjątkiem przycisków "Make a new set of cards" i "See all sets"
+        for widget in self.master.winfo_children():
+            if widget not in [self.new_set_button, self.see_all_sets_button, self.label]:
+                widget.pack_forget()
+
+        # Wyświetl przyciski "Make a new set of cards" i "See all sets", jeśli nie są już na ekranie
+        if self.new_set_button.winfo_ismapped() == 0:
             self.new_set_button.pack()
-            self.term_entry.destroy()
-            self.definition_entry.destroy()
-        elif self.term_entry:
-            self.term_entry.destroy()
-            self.flashcards_label.destroy()
-            self.definition_entry.destroy()
-            self.confirm_button.destroy()
-            self.return_button.destroy()
-            self.make_new_set()
+        if self.see_all_sets_button.winfo_ismapped() == 0:
+            self.see_all_sets_button.pack()
 
-    def __del__(self):
-        self.save_flashcards()
 
+    def see_all_sets(self):
+        # Usunięcie przycisku "See all sets" z ekranu głównego
+        self.see_all_sets_button.pack_forget()
+        self.new_set_button.pack_forget()
+        
+        # Pobranie listy plików fiszek w katalogu bieżącym
+        flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
+
+        # Tworzenie przycisków dla każdego zestawu fiszek
+        for filename in flashcard_files:
+            set_name = filename.replace("_flashcards.json", "")
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.show_set_flashcards(name), font=("Verdana", 12))
+            set_button.pack()
+            self.set_buttons.append(set_button)
+        
+        # Dodanie przycisku powrotu do ekranu głównego
+        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Verdana", 12))
+        self.return_button.pack()
+
+    def show_set_flashcards(self, set_name):
+        # Ustawienie bieżącego pliku fiszek na wybrany zestaw
+        self.current_flashcards_filename = f"{set_name}_flashcards.json"
+        self.flashcards = self.load_flashcards()
+
+        # Wyświetlenie pojęć z wybranego zestawu
+        self.show_flashcards()
+
+
+    def clear_screen(self):
+        # Usunięcie wszystkich elementów z ekranu
+        for widget in self.master.winfo_children():
+            widget.pack_forget()
 
 def main():
     root = tk.Tk()
