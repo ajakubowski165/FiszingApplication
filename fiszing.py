@@ -52,6 +52,10 @@ class FlashcardsApp:
             self.confirm_button.destroy()
             self.return_button.destroy()
 
+            # Wyświetlenie nazwy zestawu nad polami do wpisywania nowych fiszek
+            set_label = tk.Label(self.master, text=name.upper(), font=("Verdana", 14, "bold"))
+            set_label.pack()
+
             self.term_entry = tk.Entry(self.master, font=("Verdana", 12))
             self.term_entry.pack(pady=10)
 
@@ -129,7 +133,12 @@ class FlashcardsApp:
         self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Verdana", 12))
         self.return_button.pack()
 
+
     def show_set_flashcards(self, set_name):
+         # Wyświetlenie nazwy zestawu
+        set_label = tk.Label(self.master, text=set_name.upper(), font=("Verdana", 14, "bold"))
+        set_label.pack()
+
         # Ustawienie bieżącego pliku fiszek na wybrany zestaw
         self.current_flashcards_filename = f"{set_name}_flashcards.json"
         self.flashcards = self.load_flashcards()
