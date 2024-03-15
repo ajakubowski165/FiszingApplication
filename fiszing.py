@@ -32,6 +32,9 @@ class FlashcardsApp:
 
     def make_new_set(self):
         self.name_entry = tk.Entry(self.master, font=("Verdana", 12))
+        self.name_entry.insert(0, "Enter set name...")
+        self.name_entry.bind("<FocusIn>", self.clear_placeholder)
+        self.name_entry.bind("<FocusOut>", self.restore_placeholder)
         self.name_entry.pack(pady=10)
 
         self.confirm_button = tk.Button(self.master, text="Confirm", command=self.create_new_set, font=("Verdana", 12))
@@ -43,6 +46,27 @@ class FlashcardsApp:
         self.new_set_button.pack_forget()  # Ukryj przycisk "Make a new set of cards"
         self.see_all_sets_button.pack_forget()
 
+    def clear_placeholder(self, event):
+        widget = event.widget
+        if widget.get() == "Enter set name..." or widget.get() == "Enter term..." or widget.get() == "Enter definition...":
+            widget.delete(0, tk.END)
+            widget.config(fg="black")
+
+    def restore_placeholder(self, event):
+        widget = event.widget
+        if widget.get() == "":
+            if widget == self.name_entry:
+                widget.insert(0, "Enter set name...")
+            elif widget == self.term_entry:
+                widget.insert(0, "Enter term...")
+            elif widget == self.definition_entry:
+                widget.insert(0, "Enter definition...")
+            else:
+                widget.config(fg="black")
+                widget.insert(0, "Enter...")
+        elif widget == self.definition_entry:
+            widget.config(fg="black")
+
     def create_new_set(self):
         name = self.name_entry.get()
         if name:
@@ -52,14 +76,16 @@ class FlashcardsApp:
             self.confirm_button.destroy()
             self.return_button.destroy()
 
-            # Wyświetlenie nazwy zestawu nad polami do wpisywania nowych fiszek
-            set_label = tk.Label(self.master, text=name.upper(), font=("Verdana", 14, "bold"))
-            set_label.pack()
-
             self.term_entry = tk.Entry(self.master, font=("Verdana", 12))
+            self.term_entry.insert(0, "Enter term...")
+            self.term_entry.bind("<FocusIn>", self.clear_placeholder)
+            self.term_entry.bind("<FocusOut>", self.restore_placeholder)
             self.term_entry.pack(pady=10)
 
             self.definition_entry = tk.Entry(self.master, font=("Verdana", 12))
+            self.definition_entry.insert(0, "Enter definition...")
+            self.definition_entry.bind("<FocusIn>", self.clear_placeholder)
+            self.definition_entry.bind("<FocusOut>", self.restore_placeholder)
             self.definition_entry.pack(pady=10)
 
             self.confirm_button = tk.Button(self.master, text="Confirm", command=self.add_flashcard, font=("Verdana", 12))
