@@ -6,6 +6,7 @@ class FlashcardsApp:
     def __init__(self, master):
         self.master = master
         master.title("Fiszing")
+        master.configure(bg="#789c84")
 
         screen_width = master.winfo_screenwidth()
         screen_height = master.winfo_screenheight()
@@ -14,13 +15,13 @@ class FlashcardsApp:
         self.flashcards = {}
         self.current_flashcards_filename = None
 
-        self.label = tk.Label(master, text="FISZING", font=("Verdana", 18))
+        self.label = tk.Label(master, text="FISZING", font=("Jokerman", 100), bg="#789c84")
         self.label.pack(pady=20)
 
-        self.new_set_button = tk.Button(master, text="Make a new set of cards", command=self.make_new_set, font=("Verdana", 14))
-        self.new_set_button.pack()
+        self.new_set_button = tk.Button(master, text="Make a new set of cards", command=self.make_new_set, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
+        self.new_set_button.pack(pady=10)
 
-        self.see_all_sets_button = tk.Button(master, text="See all sets", command=self.see_all_sets, font=("Verdana", 14))
+        self.see_all_sets_button = tk.Button(master, text="See all sets", command=self.see_all_sets, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.see_all_sets_button.pack()
 
         self.name_entry = None
@@ -31,17 +32,17 @@ class FlashcardsApp:
         self.set_buttons = []
 
     def make_new_set(self):
-        self.name_entry = tk.Entry(self.master, font=("Verdana", 12))
+        self.name_entry = tk.Entry(self.master, font=("Centaur", 30), width=25)
         self.name_entry.insert(0, "Enter set name...")
         self.name_entry.bind("<FocusIn>", self.clear_placeholder)
         self.name_entry.bind("<FocusOut>", self.restore_placeholder)
-        self.name_entry.pack(pady=10)
+        self.name_entry.pack(pady=30)
 
-        self.confirm_button = tk.Button(self.master, text="Confirm", command=self.create_new_set, font=("Verdana", 12))
-        self.confirm_button.pack(pady=10)
+        self.confirm_button = tk.Button(self.master, text="Confirm", command=self.create_new_set, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.confirm_button.pack()
 
-        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Verdana", 12))
-        self.return_button.pack(pady=10)
+        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.return_button.pack(pady=(0, 25))
 
         self.new_set_button.pack_forget()  # Ukryj przycisk "Make a new set of cards"
         self.see_all_sets_button.pack_forget()
@@ -76,23 +77,23 @@ class FlashcardsApp:
             self.confirm_button.destroy()
             self.return_button.destroy()
 
-            self.term_entry = tk.Entry(self.master, font=("Verdana", 12))
+            self.term_entry = tk.Entry(self.master, font=("Centaur", 20))
             self.term_entry.insert(0, "Enter term...")
             self.term_entry.bind("<FocusIn>", self.clear_placeholder)
             self.term_entry.bind("<FocusOut>", self.restore_placeholder)
             self.term_entry.pack(pady=10)
 
-            self.definition_entry = tk.Entry(self.master, font=("Verdana", 12))
+            self.definition_entry = tk.Entry(self.master, font=("Centaur", 20))
             self.definition_entry.insert(0, "Enter definition...")
             self.definition_entry.bind("<FocusIn>", self.clear_placeholder)
             self.definition_entry.bind("<FocusOut>", self.restore_placeholder)
             self.definition_entry.pack(pady=10)
 
-            self.confirm_button = tk.Button(self.master, text="Confirm", command=self.add_flashcard, font=("Verdana", 12))
-            self.confirm_button.pack(pady=10)
+            self.confirm_button = tk.Button(self.master, text="Confirm", command=self.add_flashcard, font=("Centaur", 30),bg="lightgreen", width=25)
+            self.confirm_button.pack()
 
-            self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Verdana", 12))
-            self.return_button.pack(pady=10)
+            self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
+            self.return_button.pack(pady=(0, 25))
 
     def add_flashcard(self):
         term = self.term_entry.get()
@@ -112,8 +113,8 @@ class FlashcardsApp:
         if hasattr(self, "flashcards_label"):
             self.flashcards_label.destroy()
 
-        self.flashcards_label = tk.Label(self.master, text=flashcard_text, font=("Verdana", 12), justify="left")
-        self.flashcards_label.pack(pady=20)
+        self.flashcards_label = tk.Label(self.master, text=flashcard_text, font=("Centaur", 12), bg="lightgreen", width=25)
+        self.flashcards_label.pack(pady=(0, 25))
 
     def load_flashcards(self):
         if self.current_flashcards_filename and os.path.exists(self.current_flashcards_filename):
@@ -151,18 +152,18 @@ class FlashcardsApp:
         # Tworzenie przycisków dla każdego zestawu fiszek
         for filename in flashcard_files:
             set_name = filename.replace("_flashcards.json", "")
-            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.show_set_flashcards(name), font=("Verdana", 12))
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.show_set_flashcards(name), font=("Centaur", 30),bg="lightgreen", width=25)
             set_button.pack()
             self.set_buttons.append(set_button)
         
         # Dodanie przycisku powrotu do ekranu głównego
-        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Verdana", 12))
-        self.return_button.pack()
+        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30), bg="lightgreen", width=25)
+        self.return_button.pack(pady=(0, 25))
 
 
     def show_set_flashcards(self, set_name):
          # Wyświetlenie nazwy zestawu
-        set_label = tk.Label(self.master, text=set_name.upper(), font=("Verdana", 14, "bold"))
+        set_label = tk.Label(self.master, text=set_name.upper(), font=("Jokerman", 30, "bold"), bg="#789c84")
         set_label.pack()
 
         # Ustawienie bieżącego pliku fiszek na wybrany zestaw
