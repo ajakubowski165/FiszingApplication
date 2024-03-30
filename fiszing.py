@@ -106,8 +106,28 @@ class FlashcardsApp:
                 self.set_buttons.remove(button)
 
     def delete_cards(self):
-        # Implementacja usuwania kart z konkretnego zestawu
-        pass
+        # Usuń wszystkie elementy z ekranu, z wyjątkiem przycisków zestawów i przycisku powrotu
+        for widget in self.master.winfo_children():
+            if widget not in [self.label]:
+                widget.pack_forget()
+
+        # Usuń wszystkie przyciski zestawów z listy
+        for button in self.set_buttons:
+            button.destroy()
+        self.set_buttons.clear()
+
+        # Wyświetl przyciski zestawów
+        flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
+        for filename in flashcard_files:
+            set_name = filename.replace("_flashcards.json", "")
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.confirm_delete_set(name), font=("Centaur", 30),bg="lightgreen", width=25)
+            set_button.pack()
+            self.set_buttons.append(set_button)
+
+        # Wyświetl przycisk powrotu
+        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.return_button.pack(pady=(0,25))
+
 
     def clear_placeholder(self, event):
         widget = event.widget
