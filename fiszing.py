@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 import json
 import os
 
@@ -19,10 +20,13 @@ class FlashcardsApp:
         self.label.pack(pady=20)
 
         self.new_set_button = tk.Button(master, text="Make a new set of cards", command=self.make_new_set, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
-        self.new_set_button.pack(pady=10)
+        self.new_set_button.pack(pady=(25, 0))
 
         self.see_all_sets_button = tk.Button(master, text="See all sets", command=self.see_all_sets, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.see_all_sets_button.pack()
+
+        self.delete_button = tk.Button(master, text="Delete...", command=self.delete_screen, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
+        self.delete_button.pack()
 
         self.name_entry = None
         self.term_entry = None
@@ -46,6 +50,64 @@ class FlashcardsApp:
 
         self.new_set_button.pack_forget()  # Ukryj przycisk "Make a new set of cards"
         self.see_all_sets_button.pack_forget()
+        self.delete_button.pack_forget()
+
+    def delete_screen(self):
+        self.new_set_button.pack_forget()
+        self.see_all_sets_button.pack_forget()
+        self.delete_button.pack_forget()
+
+        self.delete_set_button = tk.Button(self.master, text="Delete set", command=self.show_delete_sets, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.delete_set_button.pack(pady=(25, 0))
+
+        self.delete_cards_button = tk.Button(self.master, text="Delete cards from specific set", command=self.delete_cards, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.delete_cards_button.pack()
+
+        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.return_button.pack()
+
+    
+    def show_delete_sets(self):
+        self.delete_cards_button.pack_forget()
+        self.delete_set_button.pack_forget()
+        self.return_button.pack_forget()
+
+        # Pobierz listę plików zestawów fiszek
+        flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
+
+        for filename in flashcard_files:
+            set_name = filename.replace("_flashcards.json", "")
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.confirm_delete_set(name), font=("Centaur", 30),bg="lightgreen", width=25)
+            set_button.pack()
+            self.set_buttons.append(set_button)
+
+        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.return_button.pack(pady=(0,25))
+
+    
+    def confirm_delete_set(self, set_name):
+        confirm_dialog = tk.messagebox.askquestion("Confirmation", f"Are you sure you want to delete set \"{set_name}\"?")
+        if confirm_dialog == 'yes':
+            self.delete_set(set_name)
+
+
+    def delete_set(self, set_name):
+        filename = f"{set_name}_flashcards.json"
+        if os.path.exists(filename):
+            os.remove(filename)
+            messagebox.showinfo("Success", f"Set '{set_name}' has been deleted successfully.")
+        else:
+            messagebox.showerror("Error", f"Set '{set_name}' does not exist.")
+        
+        # Usuń przycisk zestawu z listy przycisków
+        for button in self.set_buttons:
+            if button.cget("text") == set_name:
+                button.destroy()
+                self.set_buttons.remove(button)
+
+    def delete_cards(self):
+        # Implementacja usuwania kart z konkretnego zestawu
+        pass
 
     def clear_placeholder(self, event):
         widget = event.widget
@@ -139,12 +201,15 @@ class FlashcardsApp:
             self.new_set_button.pack()
         if self.see_all_sets_button.winfo_ismapped() == 0:
             self.see_all_sets_button.pack()
+        if self.delete_button.winfo_ismapped() == 0:
+            self.delete_button.pack()
 
 
     def see_all_sets(self):
         # Usunięcie przycisku "See all sets" z ekranu głównego
         self.see_all_sets_button.pack_forget()
         self.new_set_button.pack_forget()
+        self.delete_button.pack_forget()
         
         # Pobranie listy plików fiszek w katalogu bieżącym
         flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
