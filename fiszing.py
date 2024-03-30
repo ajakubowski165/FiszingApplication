@@ -106,27 +106,66 @@ class FlashcardsApp:
                 self.set_buttons.remove(button)
 
     def delete_cards(self):
-        # Usuń wszystkie elementy z ekranu, z wyjątkiem przycisków zestawów i przycisku powrotu
-        for widget in self.master.winfo_children():
-            if widget not in [self.label]:
-                widget.pack_forget()
+        self.new_set_button.pack_forget()
+        self.see_all_sets_button.pack_forget()
+        self.delete_button.pack_forget()
+        self.delete_set_button.pack_forget()
+        self.delete_cards_button.pack_forget()
+        self.return_button.pack_forget()
 
-        # Usuń wszystkie przyciski zestawów z listy
-        for button in self.set_buttons:
-            button.destroy()
-        self.set_buttons.clear()
-
-        # Wyświetl przyciski zestawów
+        # Pobierz listę plików zestawów fiszek
         flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
+
         for filename in flashcard_files:
             set_name = filename.replace("_flashcards.json", "")
-            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.confirm_delete_set(name), font=("Centaur", 30),bg="lightgreen", width=25)
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.show_set_flashcards_delete(name), font=("Centaur", 30),bg="lightgreen", width=25)
             set_button.pack()
             self.set_buttons.append(set_button)
 
-        # Wyświetl przycisk powrotu
         self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
         self.return_button.pack(pady=(0,25))
+
+    def show_set_flashcards_delete(self, set_name):
+        # Usunięcie przycisków zestawów
+        for button in self.set_buttons:
+            button.pack_forget()
+
+        # Usunięcie etykiety z nazwą zestawu, jeśli istnieje
+        if hasattr(self, "set_label"):
+            self.set_label.pack_forget()
+
+        # Wyświetlenie nazwy zestawu
+        self.set_label = tk.Label(self.master, text=set_name.upper(), font=("Jokerman", 30, "bold"), bg="#789c84")
+        self.set_label.pack()
+
+        # Ustawienie bieżącego pliku fiszek na wybrany zestaw
+        self.current_flashcards_filename = f"{set_name}_flashcards.json"
+        self.flashcards = self.load_flashcards()
+
+        # Wyświetlenie pojęć z wybranego zestawu jako przycisków
+        for term, definition in self.flashcards.items():
+            flashcard_button = tk.Button(self.master, text=f"{term}: {definition}", command=lambda t=term: self.delete_flashcard(t), font=("Centaur", 15), bg="lightgreen", width=20)
+            flashcard_button.pack(pady=5)
+            self.set_buttons.append(flashcard_button)
+
+
+    def delete_flashcard(self, term):
+        # Usunięcie pojęcia z aktualnego zestawu
+        if term in self.flashcards:
+            del self.flashcards[term]
+            self.save_flashcards()
+
+        # Usunięcie przycisku pojęcia
+        for button in self.set_buttons:
+            if term in button["text"]:
+                button.destroy()
+                self.set_buttons.remove(button)
+    
+    def remove_set_buttons(self):
+        # Usunięcie przycisków dla poprzedniego zestawu (jeśli istnieją)
+        for button in self.set_buttons:
+            button.destroy()
+        self.set_buttons.clear()
 
 
     def clear_placeholder(self, event):
