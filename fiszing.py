@@ -18,9 +18,12 @@ class FlashcardsApp:
 
         self.label = tk.Label(master, text="FISZING", font=("Jokerman", 100), bg="#789c84")
         self.label.pack(pady=20)
+        
+        self.lets_fiszing_button = tk.Button(master, text="Let's Fiszing", command=self.show_all_sets_to_learn, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
+        self.lets_fiszing_button.pack(pady=(25, 0))  
 
         self.new_set_button = tk.Button(master, text="Make a new set of cards", command=self.make_new_set, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
-        self.new_set_button.pack(pady=(25, 0))
+        self.new_set_button.pack()
 
         self.see_all_sets_button = tk.Button(master, text="See all sets", command=self.see_all_sets, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.see_all_sets_button.pack()
@@ -34,6 +37,99 @@ class FlashcardsApp:
         self.confirm_button = None
         self.return_button = None
         self.set_buttons = []
+        self.learning_window = None
+        self.current_set_name = None
+        self.current_flashcard_index = 0
+        self.num_flashcards = 0
+        self.num_correct = 0
+
+
+    def show_all_sets_to_learn(self):
+        # Usuń wszystkie elementy z ekranu, z wyjątkiem przycisku "Let's Fiszing"
+        for widget in self.master.winfo_children():
+            if widget != self.label:
+                widget.pack_forget()
+
+        # Pobranie listy plików fiszek w katalogu bieżącym
+        flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
+
+        # Tworzenie przycisków dla każdego zestawu fiszek
+        for filename in flashcard_files:
+            set_name = filename.replace("_flashcards.json", "")
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.show_learning_frame(name), font=("Centaur", 30),bg="lightgreen", width=25)
+            set_button.pack()
+            self.set_buttons.append(set_button)
+        
+        # Dodanie przycisku powrotu do ekranu głównego
+        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30), bg="lightgreen", width=25)
+        self.return_button.pack(pady=(0, 25))
+
+    def show_learning_frame(self, set_name):
+        # Usuń przyciski zestawów
+        for button in self.set_buttons:
+            button.pack_forget()
+
+        # Zainicjuj ramkę do nauki
+        self.learning_frame = tk.Frame(self.master, bg="#789c84")
+        self.learning_frame.pack(fill=tk.BOTH, expand=True)
+
+        # Ustawienia dotyczące pojęć do nauki
+        self.current_set_name = set_name
+        self.current_flashcards_filename = f"{set_name}_flashcards.json"
+        self.flashcards = self.load_flashcards()
+        self.num_flashcards = len(self.flashcards)
+        self.current_flashcard_index = 0
+        self.num_correct = 0
+
+        # Wyświetlanie nazwy zestawu
+        set_name_label = tk.Label(self.learning_frame, text=f"{set_name.upper()}", font=("Jokerman", 30, "bold"), bg="#789c84")
+        set_name_label.pack(pady=(20, 10))
+
+        # Wyświetlanie licznika pytań
+        self.flashcard_counter_label = tk.Label(self.learning_frame, text=f"1/{self.num_flashcards}", font=("Centaur", 20), bg="#789c84")
+        self.flashcard_counter_label.pack()
+
+        # Wyświetlanie licznika UMIEM/NIE UMIEM
+        self.correct_counter_label = tk.Label(self.learning_frame, text=f"UMIEM {self.num_correct}/{self.num_flashcards} NIE UMIEM", font=("Centaur", 20), bg="#789c84")
+        self.correct_counter_label.pack(pady=(10, 20))
+
+        # Wyświetlanie aktualnego pojęcia lub definicji
+        self.flashcard_button = tk.Button(self.learning_frame, text=list(self.flashcards.keys())[0], command=self.flip_flashcard, font=("Centaur", 40), bg="lightgreen", width=25)
+        self.flashcard_button.pack(pady=20)
+
+        # Przyciski UMIEM/NIE UMIEM
+        self.know_button = tk.Button(self.learning_frame, text="UMIEM", command=self.next_flashcard, font=("Centaur", 20), bg="lightgreen", width=10)
+        self.know_button.pack(side="left", padx=20)
+        self.dont_know_button = tk.Button(self.learning_frame, text="NIE UMIEM", command=self.next_flashcard, font=("Centaur", 20), bg="lightgreen", width=10)
+        self.dont_know_button.pack(side="right", padx=20)
+
+    def flip_flashcard(self):
+        current_flashcard = list(self.flashcards.values())[self.current_flashcard_index]
+        if self.flashcard_button.cget("text") == current_flashcard:
+            self.flashcard_button.config(text=list(self.flashcards.keys())[self.current_flashcard_index])
+        else:
+            self.flashcard_button.config(text=current_flashcard)
+
+    def next_flashcard(self):
+        # Inkrementacja licznika UMIEM/NIE UMIEM
+        if self.know_button['state'] != 'disabled':
+            self.num_correct += 1
+
+        # Aktualizacja licznika pytań
+        self.current_flashcard_index += 1
+        self.flashcard_counter_label.config(text=f"{self.current_flashcard_index + 1}/{self.num_flashcards}")
+
+        # Aktualizacja licznika UMIEM/NIE UMIEM
+        self.correct_counter_label.config(text=f"UMIEM {self.num_correct}/{self.num_flashcards} NIE UMIEM")
+
+        # Sprawdzenie, czy to już ostatnie pytanie
+        if self.current_flashcard_index < self.num_flashcards:
+            self.flip_flashcard()
+        else:
+            messagebox.showinfo("Info", "You have completed learning this set!")
+            self.learning_frame.destroy()
+
+
 
     def make_new_set(self):
         self.name_entry = tk.Entry(self.master, font=("Centaur", 30), width=25)
@@ -51,11 +147,13 @@ class FlashcardsApp:
         self.new_set_button.pack_forget()  # Ukryj przycisk "Make a new set of cards"
         self.see_all_sets_button.pack_forget()
         self.delete_button.pack_forget()
+        self.lets_fiszing_button.pack_forget()
 
     def delete_screen(self):
         self.new_set_button.pack_forget()
         self.see_all_sets_button.pack_forget()
         self.delete_button.pack_forget()
+        self.lets_fiszing_button.pack_forget()
 
         self.delete_set_button = tk.Button(self.master, text="Delete set", command=self.show_delete_sets, font=("Centaur", 30),bg="lightgreen", width=25)
         self.delete_set_button.pack(pady=(25, 0))
@@ -71,6 +169,7 @@ class FlashcardsApp:
         self.delete_cards_button.pack_forget()
         self.delete_set_button.pack_forget()
         self.return_button.pack_forget()
+        self.lets_fiszing_button.pack_forget()
 
         # Pobierz listę plików zestawów fiszek
         flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
@@ -112,6 +211,7 @@ class FlashcardsApp:
         self.delete_set_button.pack_forget()
         self.delete_cards_button.pack_forget()
         self.return_button.pack_forget()
+        self.lets_fiszing_button.pack_forget()
 
         # Pobierz listę plików zestawów fiszek
         flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
@@ -252,10 +352,12 @@ class FlashcardsApp:
     def return_to_main_window(self):
         # Usuń wszystkie elementy z ekranu, z wyjątkiem przycisków "Make a new set of cards" i "See all sets"
         for widget in self.master.winfo_children():
-            if widget not in [self.new_set_button, self.see_all_sets_button, self.label]:
+            if widget not in [self.new_set_button, self.see_all_sets_button, self.label, self.lets_fiszing_button]:
                 widget.pack_forget()
 
         # Wyświetl przyciski "Make a new set of cards" i "See all sets", jeśli nie są już na ekranie
+        if self.lets_fiszing_button.winfo_ismapped() == 0:
+            self.lets_fiszing_button.pack()
         if self.new_set_button.winfo_ismapped() == 0:
             self.new_set_button.pack()
         if self.see_all_sets_button.winfo_ismapped() == 0:
@@ -264,11 +366,13 @@ class FlashcardsApp:
             self.delete_button.pack()
 
 
+
     def see_all_sets(self):
         # Usunięcie przycisku "See all sets" z ekranu głównego
         self.see_all_sets_button.pack_forget()
         self.new_set_button.pack_forget()
         self.delete_button.pack_forget()
+        self.lets_fiszing_button.pack_forget()
         
         # Pobranie listy plików fiszek w katalogu bieżącym
         flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
