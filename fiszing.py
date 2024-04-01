@@ -80,6 +80,7 @@ class FlashcardsApp:
         self.num_flashcards = len(self.flashcards)
         self.current_flashcard_index = 0
         self.num_correct = 0
+        self.num_incorrect = 0
 
         # Wyświetlanie nazwy zestawu
         set_name_label = tk.Label(self.learning_frame, text=f"{set_name.upper()}", font=("Jokerman", 30, "bold"), bg="#789c84")
@@ -90,7 +91,7 @@ class FlashcardsApp:
         self.flashcard_counter_label.pack()
 
         # Wyświetlanie licznika UMIEM/NIE UMIEM
-        self.correct_counter_label = tk.Label(self.learning_frame, text=f"UMIEM {self.num_correct}/{self.num_flashcards} NIE UMIEM", font=("Centaur", 20), bg="#789c84")
+        self.correct_counter_label = tk.Label(self.learning_frame, text=f"UMIEM {self.num_correct}/{self.num_incorrect} NIE UMIEM", font=("Centaur", 20), bg="#789c84")
         self.correct_counter_label.pack(pady=(10, 20))
 
         # Wyświetlanie aktualnego pojęcia lub definicji
@@ -98,10 +99,24 @@ class FlashcardsApp:
         self.flashcard_button.pack(pady=20)
 
         # Przyciski UMIEM/NIE UMIEM
-        self.know_button = tk.Button(self.learning_frame, text="UMIEM", command=self.next_flashcard, font=("Centaur", 20), bg="lightgreen", width=10)
-        self.know_button.pack(side="left", padx=20)
-        self.dont_know_button = tk.Button(self.learning_frame, text="NIE UMIEM", command=self.next_flashcard, font=("Centaur", 20), bg="lightgreen", width=10)
-        self.dont_know_button.pack(side="right", padx=20)
+        self.know_button = tk.Button(self.learning_frame, text="UMIEM", command=self.on_know_click, font=("Centaur", 20), bg="lightgreen", width=10)
+        self.know_button.pack(side="left", padx=40)
+        self.dont_know_button = tk.Button(self.learning_frame, text="NIE UMIEM", command=self.on_dont_know_click, font=("Centaur", 20), bg="lightgreen", width=10)
+        self.dont_know_button.pack(side="right", padx=40)
+    
+    def on_know_click(self):
+        # Inkrementacja licznika UMIEM
+        self.num_correct += 1
+
+        # Przejście do następnej fiszki
+        self.next_flashcard()
+    
+    def on_dont_know_click(self):
+        # Inkrementacja licznika NIE UMIEM
+        self.num_incorrect += 1
+
+        # Przejście do następnej fiszki
+        self.next_flashcard()
 
     def flip_flashcard(self):
         current_flashcard = list(self.flashcards.values())[self.current_flashcard_index]
@@ -111,16 +126,12 @@ class FlashcardsApp:
             self.flashcard_button.config(text=current_flashcard)
 
     def next_flashcard(self):
-        # Inkrementacja licznika UMIEM/NIE UMIEM
-        if self.know_button['state'] != 'disabled':
-            self.num_correct += 1
-
         # Aktualizacja licznika pytań
         self.current_flashcard_index += 1
         self.flashcard_counter_label.config(text=f"{self.current_flashcard_index + 1}/{self.num_flashcards}")
 
         # Aktualizacja licznika UMIEM/NIE UMIEM
-        self.correct_counter_label.config(text=f"UMIEM {self.num_correct}/{self.num_flashcards} NIE UMIEM")
+        self.correct_counter_label.config(text=f"UMIEM {self.num_correct}/{self.num_incorrect} NIE UMIEM")
 
         # Sprawdzenie, czy to już ostatnie pytanie
         if self.current_flashcard_index < self.num_flashcards:
