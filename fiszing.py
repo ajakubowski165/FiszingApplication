@@ -137,7 +137,11 @@ class FlashcardsApp:
         if self.current_flashcard_index < self.num_flashcards:
             self.flip_flashcard()
         else:
-            messagebox.showinfo("Info", "You have completed learning this set!")
+           # Wyświetlenie wyniku w messageboxie
+            result_message = f"You have completed learning this set!\n" \
+                            f"UMIEM: {self.num_correct}\n" \
+                            f"NIE UMIEM: {self.num_incorrect}"
+            messagebox.showinfo("Info", result_message)
             self.learning_frame.destroy()
 
 
