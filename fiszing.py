@@ -19,16 +19,16 @@ class FlashcardsApp:
         self.label = tk.Label(master, text="FISZING", font=("Jokerman", 100), bg="#789c84")
         self.label.pack(pady=20)
         
-        self.lets_fiszing_button = tk.Button(master, text="Let's Fiszing", command=self.show_all_sets_to_learn, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
+        self.lets_fiszing_button = tk.Button(master, text="Zacznij FISZING!", command=self.show_all_sets_to_learn, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
         self.lets_fiszing_button.pack(pady=(25, 0))  
 
-        self.new_set_button = tk.Button(master, text="Make a new set of cards", command=self.make_new_set, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
+        self.new_set_button = tk.Button(master, text="Utwórz nowy zestaw", command=self.make_new_set, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.new_set_button.pack()
 
-        self.see_all_sets_button = tk.Button(master, text="See all sets", command=self.see_all_sets, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
+        self.see_all_sets_button = tk.Button(master, text="Zobacz wszystkie zestawy", command=self.see_all_sets, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.see_all_sets_button.pack()
 
-        self.delete_button = tk.Button(master, text="Delete...", command=self.delete_screen, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
+        self.delete_button = tk.Button(master, text="Usun...", command=self.delete_screen, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.delete_button.pack()
 
         self.name_entry = None
@@ -61,8 +61,8 @@ class FlashcardsApp:
             self.set_buttons.append(set_button)
         
         # Dodanie przycisku powrotu do ekranu głównego
-        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30), bg="lightgreen", width=25)
-        self.return_button.pack(pady=(0, 25))
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button.pack(pady=25)
 
     def show_learning_frame(self, set_name):
         # Usuń przyciski zestawów
@@ -138,7 +138,7 @@ class FlashcardsApp:
             self.flip_flashcard()
         else:
            # Wyświetlenie wyniku w messageboxie
-            result_message = f"You have completed learning this set!\n" \
+            result_message = f"Ukonczyles zestaw!\n" \
                             f"UMIEM: {self.num_correct}\n" \
                             f"NIE UMIEM: {self.num_incorrect}"
             messagebox.showinfo("Info", result_message)
@@ -148,16 +148,16 @@ class FlashcardsApp:
 
     def make_new_set(self):
         self.name_entry = tk.Entry(self.master, font=("Centaur", 30), width=25)
-        self.name_entry.insert(0, "Enter set name...")
+        self.name_entry.insert(0, "Wprowadz nazwe zestawu...")
         self.name_entry.bind("<FocusIn>", self.clear_placeholder)
         self.name_entry.bind("<FocusOut>", self.restore_placeholder)
         self.name_entry.pack(pady=30)
 
-        self.confirm_button = tk.Button(self.master, text="Confirm", command=self.create_new_set, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.confirm_button = tk.Button(self.master, text="Zatwierdz", command=self.create_new_set, font=("Centaur", 30),bg="lightgreen", width=25)
         self.confirm_button.pack()
 
-        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
-        self.return_button.pack(pady=(0, 25))
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button.pack(pady=25)
 
         self.new_set_button.pack_forget()  # Ukryj przycisk "Make a new set of cards"
         self.see_all_sets_button.pack_forget()
@@ -170,14 +170,14 @@ class FlashcardsApp:
         self.delete_button.pack_forget()
         self.lets_fiszing_button.pack_forget()
 
-        self.delete_set_button = tk.Button(self.master, text="Delete set", command=self.show_delete_sets, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.delete_set_button = tk.Button(self.master, text="Usun zestaw", command=self.show_delete_sets, font=("Centaur", 30),bg="lightgreen", width=25)
         self.delete_set_button.pack(pady=(25, 0))
 
-        self.delete_cards_button = tk.Button(self.master, text="Delete cards from specific set", command=self.delete_cards, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.delete_cards_button = tk.Button(self.master, text="Usun konkretne fiszki z zestawu", command=self.delete_cards, font=("Centaur", 30),bg="lightgreen", width=25)
         self.delete_cards_button.pack()
 
-        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
-        self.return_button.pack()
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button.pack(pady=25)
 
     
     def show_delete_sets(self):
@@ -195,12 +195,12 @@ class FlashcardsApp:
             set_button.pack()
             self.set_buttons.append(set_button)
 
-        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
-        self.return_button.pack(pady=(0,25))
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button.pack(pady=25)
 
     
     def confirm_delete_set(self, set_name):
-        confirm_dialog = tk.messagebox.askquestion("Confirmation", f"Are you sure you want to delete set \"{set_name}\"?")
+        confirm_dialog = tk.messagebox.askquestion("Confirmation", f"Jestes pewny, ze chcesz usunac zestaw \"{set_name}\"?")
         if confirm_dialog == 'yes':
             self.delete_set(set_name)
 
@@ -209,9 +209,9 @@ class FlashcardsApp:
         filename = f"{set_name}_flashcards.json"
         if os.path.exists(filename):
             os.remove(filename)
-            messagebox.showinfo("Success", f"Set '{set_name}' has been deleted successfully.")
+            messagebox.showinfo("Success", f"Zestaw '{set_name}' zostal usuniety pomyslnie.")
         else:
-            messagebox.showerror("Error", f"Set '{set_name}' does not exist.")
+            messagebox.showerror("Error", f"Zestaw '{set_name}' nie istnieje.")
         
         # Usuń przycisk zestawu z listy przycisków
         for button in self.set_buttons:
@@ -237,8 +237,8 @@ class FlashcardsApp:
             set_button.pack()
             self.set_buttons.append(set_button)
 
-        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
-        self.return_button.pack(pady=(0,25))
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button.pack(pady=25)
 
     def show_set_flashcards_delete(self, set_name):
         # Usunięcie przycisków zestawów
@@ -285,7 +285,7 @@ class FlashcardsApp:
 
     def clear_placeholder(self, event):
         widget = event.widget
-        if widget.get() == "Enter set name..." or widget.get() == "Enter term..." or widget.get() == "Enter definition...":
+        if widget.get() == "Wprowadz nazwe zestawu..." or widget.get() == "Wprowadz pojecie..." or widget.get() == "Wprowadz definicje...":
             widget.delete(0, tk.END)
             widget.config(fg="black")
 
@@ -293,11 +293,11 @@ class FlashcardsApp:
         widget = event.widget
         if widget.get() == "":
             if widget == self.name_entry:
-                widget.insert(0, "Enter set name...")
+                widget.insert(0, "Wprowadz nazwe zestawu...")
             elif widget == self.term_entry:
-                widget.insert(0, "Enter term...")
+                widget.insert(0, "Wprowadz pojecie...")
             elif widget == self.definition_entry:
-                widget.insert(0, "Enter definition...")
+                widget.insert(0, "Wprowadz definicje...")
             else:
                 widget.config(fg="black")
                 widget.insert(0, "Enter...")
@@ -314,22 +314,22 @@ class FlashcardsApp:
             self.return_button.destroy()
 
             self.term_entry = tk.Entry(self.master, font=("Centaur", 20))
-            self.term_entry.insert(0, "Enter term...")
+            self.term_entry.insert(0, "Wprowadz pojecie...")
             self.term_entry.bind("<FocusIn>", self.clear_placeholder)
             self.term_entry.bind("<FocusOut>", self.restore_placeholder)
             self.term_entry.pack(pady=10)
 
             self.definition_entry = tk.Entry(self.master, font=("Centaur", 20))
-            self.definition_entry.insert(0, "Enter definition...")
+            self.definition_entry.insert(0, "Wprowadz definicje...")
             self.definition_entry.bind("<FocusIn>", self.clear_placeholder)
             self.definition_entry.bind("<FocusOut>", self.restore_placeholder)
             self.definition_entry.pack(pady=10)
 
-            self.confirm_button = tk.Button(self.master, text="Confirm", command=self.add_flashcard, font=("Centaur", 30),bg="lightgreen", width=25)
+            self.confirm_button = tk.Button(self.master, text="Zatwierdz", command=self.add_flashcard, font=("Centaur", 30),bg="lightgreen", width=25)
             self.confirm_button.pack()
 
-            self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30),bg="lightgreen", width=25)
-            self.return_button.pack(pady=(0, 25))
+            self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+            self.return_button.pack(pady=25)
 
     def add_flashcard(self):
         term = self.term_entry.get()
@@ -400,8 +400,8 @@ class FlashcardsApp:
             self.set_buttons.append(set_button)
         
         # Dodanie przycisku powrotu do ekranu głównego
-        self.return_button = tk.Button(self.master, text="Return", command=self.return_to_main_window, font=("Centaur", 30), bg="lightgreen", width=25)
-        self.return_button.pack(pady=(0, 25))
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button.pack(pady=25)
 
 
     def show_set_flashcards(self, set_name):
