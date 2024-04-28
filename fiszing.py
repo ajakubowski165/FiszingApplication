@@ -405,7 +405,10 @@ class FlashcardsApp:
 
 
     def show_set_flashcards(self, set_name):
-         # Wyświetlenie nazwy zestawu
+        # Usunięcie przycisków zestawów
+        self.remove_set_buttons()
+
+        # Wyświetlenie nazwy zestawu
         set_label = tk.Label(self.master, text=set_name.upper(), font=("Jokerman", 30, "bold"), bg="#789c84")
         set_label.pack()
 
@@ -413,8 +416,25 @@ class FlashcardsApp:
         self.current_flashcards_filename = f"{set_name}_flashcards.json"
         self.flashcards = self.load_flashcards()
 
-        # Wyświetlenie pojęć z wybranego zestawu
-        self.show_flashcards()
+        # Tworzenie ramki z paskiem przewijania dla wyświetlania pojęć z wybranego zestawu
+        scroll_frame = tk.Frame(self.master, bg="lightgreen", width=600, height=400)  # Ustawienie szerokości i wysokości ramki
+        scroll_frame.pack(pady=20)
+
+        canvas = tk.Canvas(scroll_frame, bg="lightgreen")
+        scrollbar = tk.Scrollbar(scroll_frame, orient=tk.VERTICAL, command=canvas.yview)
+        flashcards_frame = tk.Frame(canvas, bg="lightgreen")
+
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        canvas.create_window((0, 0), window=flashcards_frame, anchor=tk.NW)
+
+        flashcards_frame.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        # Wyświetlenie pojęć z wybranego zestawu w ramce
+        for term, definition in self.flashcards.items():
+            flashcard_text = f"{term}: {definition}"
+            flashcard_label = tk.Label(flashcards_frame, text=flashcard_text, font=("Centaur", 15), bg="lightgreen", width=60, anchor=tk.W)  # Zmiana szerokości etykiety
+            flashcard_label.pack(fill=tk.X, padx=10, pady=5)
 
 
     def clear_screen(self):
