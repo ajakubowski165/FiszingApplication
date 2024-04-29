@@ -23,7 +23,7 @@ class FlashcardsApp:
         self.lets_fiszing_button = tk.Button(master, text="Zacznij FISZING!", command=self.show_all_sets_to_learn, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
         self.lets_fiszing_button.pack(pady=(25, 0))
 
-        self.solve_quiz_button = tk.Button(master, text="Rozwiąż quiz", command=self.solve_quiz, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
+        self.solve_quiz_button = tk.Button(master, text="Rozwiaz quiz", command=self.solve_quiz, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
         self.solve_quiz_button.pack()  
 
         self.new_set_button = tk.Button(master, text="Utwórz nowy zestaw", command=self.make_new_set, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
@@ -121,7 +121,7 @@ class FlashcardsApp:
             self.quiz_frame.pack(pady=20)
 
             # Wyświetl pytanie
-            question_label = tk.Label(self.quiz_frame, text=f"Pojęcie: {self.current_question}", font=("Centaur", 20), bg="#789c84")
+            question_label = tk.Label(self.quiz_frame, text=f"Pytanie: {self.current_question}", font=("Centaur", 20), bg="#789c84")
             question_label.pack(pady=10)
 
             # Wyświetl odpowiedzi jako przyciski
@@ -465,10 +465,11 @@ class FlashcardsApp:
         if name:
             self.current_flashcards_filename = f"{name}_flashcards.json"
             self.flashcards = self.load_flashcards()
-            self.name_entry.destroy()
-            self.confirm_button.destroy()
-            self.return_button.destroy()
-            self.solve_quiz_button.destroy()
+            self.name_entry.pack_forget()
+            self.confirm_button.pack_forget()
+            self.return_button.pack_forget()
+            self.solve_quiz_button.pack_forget()
+            self.lets_fiszing_button.pack_forget()
 
             self.term_entry = tk.Entry(self.master, font=("Centaur", 20))
             self.term_entry.insert(0, "Wprowadz pojecie...")
@@ -500,7 +501,7 @@ class FlashcardsApp:
             # Wyczyść wprowadzone wartości
             self.term_entry.delete(0, tk.END)
             self.definition_entry.delete(0, tk.END)
-
+        
     def show_flashcards(self):
         flashcard_text = "\n".join([f"{term}: {definition}" for term, definition in self.flashcards.items()])
         if hasattr(self, "flashcards_label"):
@@ -539,8 +540,6 @@ class FlashcardsApp:
         if self.delete_button.winfo_ismapped() == 0:
             self.delete_button.pack()
    
-
-
 
     def see_all_sets(self):
         # Usunięcie przycisku "See all sets" z ekranu głównego
