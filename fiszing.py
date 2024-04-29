@@ -29,7 +29,7 @@ class FlashcardsApp:
         self.new_set_button = tk.Button(master, text="Utwórz nowy zestaw", command=self.make_new_set, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.new_set_button.pack()
 
-        self.see_all_sets_button = tk.Button(master, text="Zobacz wszystkie zestawy", command=self.see_all_sets, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
+        self.see_all_sets_button = tk.Button(master, text="Dodaj fiszki do zestawu", command=self.see_all_sets, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.see_all_sets_button.pack()
 
         self.delete_button = tk.Button(master, text="Usun...", command=self.delete_screen, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
@@ -496,19 +496,12 @@ class FlashcardsApp:
         if term and definition:
             self.flashcards[term] = definition
             self.save_flashcards()
-            self.show_flashcards()
+            self.set_in_frame()
 
             # Wyczyść wprowadzone wartości
             self.term_entry.delete(0, tk.END)
             self.definition_entry.delete(0, tk.END)
         
-    def show_flashcards(self):
-        flashcard_text = "\n".join([f"{term}: {definition}" for term, definition in self.flashcards.items()])
-        if hasattr(self, "flashcards_label"):
-            self.flashcards_label.destroy()
-
-        self.flashcards_label = tk.Label(self.master, text=flashcard_text, font=("Centaur", 12), bg="lightgreen", width=25)
-        self.flashcards_label.pack(pady=(0, 25))
 
     def load_flashcards(self):
         if self.current_flashcards_filename and os.path.exists(self.current_flashcards_filename):
@@ -541,6 +534,41 @@ class FlashcardsApp:
             self.delete_button.pack()
    
 
+    def set_in_frame(self):
+        # Sprawdzenie, czy istnieje ramka scroll_frame
+        if hasattr(self, 'scroll_frame'):
+            # Jeśli ramka istnieje, usuń wszystkie elementy wewnątrz niej
+            for widget in self.scroll_frame.winfo_children():
+                widget.destroy()
+        else:
+            # Jeśli ramka nie istnieje, utwórz nową
+            self.scroll_frame = tk.Frame(self.master, bg="lightgreen", width=600, height=400)
+            self.scroll_frame.pack(pady=20)
+
+        # Utwórz canvas i scrollbar jako dzieci ramki scroll_frame
+        canvas = tk.Canvas(self.scroll_frame, bg="lightgreen")
+        scrollbar = tk.Scrollbar(self.scroll_frame, orient=tk.VERTICAL, command=canvas.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        # Ustaw canvas jako ramkę, którą będzie przewijać pasek przewijania
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        # Utwórz ramkę dla pojęć, która będzie umieszczona na canvasie
+        flashcards_frame = tk.Frame(canvas, bg="lightgreen")
+
+        # Ustaw canvas tak, aby zawierał ramkę z pojęciami
+        canvas.create_window((0, 0), window=flashcards_frame, anchor=tk.NW)
+
+        # Powiąż przeskalowanie obszaru canvasa z jego zawartością
+        flashcards_frame.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        # Wyświetlenie pojęć z wybranego zestawu w ramce
+        for term, definition in self.flashcards.items():
+            flashcard_text = f"{term}: {definition}"
+            flashcard_label = tk.Label(flashcards_frame, text=flashcard_text, font=("Centaur", 15), bg="lightgreen", width=60, anchor=tk.W)
+            flashcard_label.pack(fill=tk.X, padx=10, pady=5)
+
     def see_all_sets(self):
         # Usunięcie przycisku "See all sets" z ekranu głównego
         self.see_all_sets_button.pack_forget()
@@ -567,6 +595,7 @@ class FlashcardsApp:
     def show_set_flashcards(self, set_name):
         # Usunięcie przycisków zestawów
         self.remove_set_buttons()
+        self.return_button.pack_forget()
 
         # Wyświetlenie nazwy zestawu
         set_label = tk.Label(self.master, text=set_name.upper(), font=("Jokerman", 30, "bold"), bg="#789c84")
@@ -576,26 +605,23 @@ class FlashcardsApp:
         self.current_flashcards_filename = f"{set_name}_flashcards.json"
         self.flashcards = self.load_flashcards()
 
-        # Tworzenie ramki z paskiem przewijania dla wyświetlania pojęć z wybranego zestawu
-        scroll_frame = tk.Frame(self.master, bg="lightgreen", width=600, height=400)  # Ustawienie szerokości i wysokości ramki
-        scroll_frame.pack(pady=20)
+        self.term_entry = tk.Entry(self.master, font=("Centaur", 20))
+        self.term_entry.insert(0, "Wprowadz pojecie...")
+        self.term_entry.bind("<FocusIn>", self.clear_placeholder)
+        self.term_entry.bind("<FocusOut>", self.restore_placeholder)
+        self.term_entry.pack(pady=10)
 
-        canvas = tk.Canvas(scroll_frame, bg="lightgreen")
-        scrollbar = tk.Scrollbar(scroll_frame, orient=tk.VERTICAL, command=canvas.yview)
-        flashcards_frame = tk.Frame(canvas, bg="lightgreen")
+        self.definition_entry = tk.Entry(self.master, font=("Centaur", 20))
+        self.definition_entry.insert(0, "Wprowadz definicje...")
+        self.definition_entry.bind("<FocusIn>", self.clear_placeholder)
+        self.definition_entry.bind("<FocusOut>", self.restore_placeholder)
+        self.definition_entry.pack(pady=10)
 
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        canvas.create_window((0, 0), window=flashcards_frame, anchor=tk.NW)
+        self.confirm_button = tk.Button(self.master, text="Zatwierdz", command=self.add_flashcard, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.confirm_button.pack()
 
-        flashcards_frame.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
-
-        # Wyświetlenie pojęć z wybranego zestawu w ramce
-        for term, definition in self.flashcards.items():
-            flashcard_text = f"{term}: {definition}"
-            flashcard_label = tk.Label(flashcards_frame, text=flashcard_text, font=("Centaur", 15), bg="lightgreen", width=60, anchor=tk.W)  # Zmiana szerokości etykiety
-            flashcard_label.pack(fill=tk.X, padx=10, pady=5)
-
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button.pack(pady=25)
 
 
 def main():
