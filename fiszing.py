@@ -88,6 +88,7 @@ class FlashcardsApp:
         self.prepare_questions()
 
         # Rozpoczęcie quizu od pierwszego pytania
+        self.current_question_index = 0
         self.show_next_question()
 
     def prepare_questions(self):
@@ -101,11 +102,10 @@ class FlashcardsApp:
 
         if self.current_question_index is None:
             self.current_question_index = 0
-        else:
-            self.current_question_index += 1
 
         if self.current_question_index < len(self.questions):
-            self.current_question = self.questions[self.current_question_index][0]
+            self.current_question_index += 1
+            self.current_question = self.questions[self.current_question_index - 1][0]
             self.correct_answer = self.flashcards[self.current_question]
             answers = [self.correct_answer]
 
@@ -113,12 +113,16 @@ class FlashcardsApp:
             all_definitions = list(self.flashcards.values())
             all_definitions.remove(self.correct_answer)
             random.shuffle(all_definitions)
-            answers.extend(all_definitions[:2])
+            answers.extend(all_definitions[:3])
             random.shuffle(answers)
 
             # Utwórz ramkę dla pytania i odpowiedzi
             self.quiz_frame = tk.Frame(self.master, bg="#789c84")
             self.quiz_frame.pack(pady=20)
+
+            # Wyświetl licznik pytania
+            question_counter_label = tk.Label(self.quiz_frame, text=f"Pytanie {self.current_question_index}/{len(self.questions)}:", font=("Centaur", 20), bg="#789c84")
+            question_counter_label.pack()
 
             # Wyświetl pytanie
             question_label = tk.Label(self.quiz_frame, text=f"Pytanie: {self.current_question}", font=("Centaur", 20), bg="#789c84")
@@ -127,7 +131,7 @@ class FlashcardsApp:
             # Wyświetl odpowiedzi jako przyciski
             answer_buttons = []
             for idx, answer in enumerate(answers):
-                button = tk.Button(self.quiz_frame, text=f"{chr(65+idx)}. {answer}", font=("Centaur", 15), bg="lightgreen", width=30, command=lambda a=answer: self.check_answer(a))
+                button = tk.Button(self.quiz_frame, text=f"{chr(65+idx)}. {answer}", font=("Centaur", 15), bg="lightgreen", width=45, command=lambda a=answer: self.check_answer(a))
                 button.pack(pady=5)
                 answer_buttons.append(button)
 
@@ -141,7 +145,9 @@ class FlashcardsApp:
             result_label = tk.Label(self.quiz_frame, text="Koniec quizu!", font=("Jokerman", 30), bg="#789c84")
             result_label.pack()
 
-            score_label = tk.Label(self.quiz_frame, text=f"Twój wynik: {self.calculate_score()}", font=("Centaur", 20), bg="#789c84")
+            score_percentage = (self.num_correct / len(self.questions)) * 100
+
+            score_label = tk.Label(self.quiz_frame, text=f"Twój wynik: {score_percentage:.1f}%", font=("Centaur", 20), bg="#789c84")
             score_label.pack(pady=10)
 
             # Usuń przyciski zestawów i przycisk powrotu
@@ -157,6 +163,7 @@ class FlashcardsApp:
         self.disable_answer_buttons()
         if self.selected_answer == self.correct_answer:
             messagebox.showinfo("Wynik", "Odpowiedź poprawna!")
+            self.num_correct += 1
         else:
             messagebox.showinfo("Wynik", f"Odpowiedź niepoprawna! Poprawna odpowiedź to: {self.correct_answer}")
         self.show_next_question()
@@ -166,8 +173,8 @@ class FlashcardsApp:
             button.config(state=tk.DISABLED)
 
     def calculate_score(self):
-        num_correct = sum(1 for question in self.questions if self.flashcards[question[0]] == question[1])
-        return f"{num_correct}/{len(self.questions)}"
+        score_percentage = (self.num_correct / self.num_flashcards) * 100  # Użyj self.num_correct do obliczenia wyniku
+        return f"{score_percentage:.1f}%"
 
     def clear_screen(self):
         # Usunięcie wszystkich elementów z ekranu
