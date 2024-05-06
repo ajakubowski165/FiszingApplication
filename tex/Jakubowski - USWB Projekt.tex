@@ -1,0 +1,154 @@
+\documentclass[12pt]{article}
+\usepackage{polski}
+\usepackage[cp1250]{inputenc}
+\usepackage{graphicx}
+\usepackage{xlop}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\graphicspath{ {./images/} }
+\usepackage{amsmath,amssymb,fancyhdr,array}
+\usepackage{setspace}
+\usepackage[a4paper, top=25mm, bottom=25mm, left=30mm, right=25mm]{geometry}
+\setstretch{1.5}
+\usepackage{lipsum}
+\usepackage{xcolor}
+\bibliographystyle{elsarticle-num}
+
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \includegraphics[width=0.1\textwidth]{./images/logo.jpg}\par
+    \vspace{1cm}
+    {\scshape\Large POLITECHNIKA  RZESZOWSKA \par}
+    {\scshape\large im. Ignacego £ukasiewicza \par}
+    \vspace{0.5cm}
+    {\scshape WYDZIA£ MATEMATYKI I FIZYKI STOSOWANEJ \par}
+    \vspace{2.5cm}
+    {\scshape\Large Adrian Jakubowski \par}
+    \vspace{2cm}
+    {\scshape\Large Aplikacja do nauki fiszek \par}
+    \vspace{1.5cm}
+    {\scshape Projekt z przedmiotu \par}
+    {\scshape\Large Us³ugi sieciowe w biznesie \par}
+    \vfill
+    \raggedleft
+    {Kierunek studiów:\par}
+    {\Large In¿ynieria i Analiza Danych, III rok \par}
+    \vspace{0.5cm}
+    \centering
+    {Rzeszów 2024}
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+\section{Temat projektu}
+Tematem projektu z przedmiotu "Us³ugi sieciowe w biznesie" by³o utworzenie nowego rozwi¹zania, b¹dŸ przetestowanie istniej¹cego ju¿ oprogramowania w zakresie szeroko pojêtego biznesu. Z powodu szerokiego wachlarza mo¿liwoœci, jakie oferowa³ nam ten projekt, mogliœmy siê zdecydowaæ na pracê maj¹c do wyboru utworzenie/przetestowanie narzêdzia, którego zadaniem jest np. optymalizacja pracy, poprawa wydajnoœci, redukowanie kosztów czy poprawa wiedzy oraz doœwiadczenia pracownika.\par
+Szukaj¹c odpowiedniego tematu projektu, zdecydowa³em siê na stworzenie czegoœ z czego sam bêdê mia³ mo¿liwoœæ oraz bêdê chcia³ korzystaæ w ¿yciu codziennym. Z tego wzglêdu, zainspirowany portalem Quizlet, postanowi³em utworzyæ prost¹ aplikacjê okienkow¹ do nauki "wirtualnych fiszek", czyli komputerowych odpowiedników ma³ych karteczek, skutecznych przy nauce m.in. s³ów oraz zwrotów w jêzykach obcych czy definicji i pojêæ z innych dziedzin. 
+
+\section{Cel i zakres pracy}
+\subsection{Cel projektu}
+Celem projektu, zgodnie z ustalonym tematem, by³o utworzenie aplikacji do nauki fiszek, dziêki którym u¿ytkownik mo¿e uczyæ siê pojêæ oraz definicji, analizowaæ swoje wyniki, a nastêpnie sprawdzaæ swoj¹ wiedzê.\par
+G³ównym zadaniem takiej aplikacji jest mo¿liwoœæ tworzenia w³asnych zestawów fiszek, a nastêpnie ich nauka, poprzez interaktywne "odwracanie" fiszki. Powodem, dla którego u¿ytkownik chcê korzystaæ z takiego narzêdzia jest poprawa swojej wiedzy, wiêc konieczne by³o równie¿ zaimplementowanie mo¿liwoœci sprawdzenia swojej wiedzy, poprzez opcjê zaznacza, które pojêcia s¹ ju¿ znane dla u¿ytkownika, a które nale¿y powtórzyæ. Ponadto, zdecydowa³em siê na utworzenie tak¿e dodatkowej opcji w mojej aplikacji, a mianowicie quizu, który losuje pytanie spoœród fiszek w wybranym zestawie oraz losuje tak¿e 4 odpowiedzi z czego jedna jest prawid³owa. W taki sposób, gracz mo¿e szlifowaæ swoj¹ wiedzê.
+
+\subsection{Metodologia}
+Spoœród g¹szcza narzêdzi oraz jêzyków programowania, dziêki którym móg³bym utworzyæ moj¹ aplikacjê, zdecydowa³em siê na jêzyk Python, a dok³adnie na bibliotekê Tkinter, która pozwala na tworzenie prostych interfejsów graficznych. Umo¿liwia tworzenie okien, przycisków, etykiet i innych elementów interfejsu. Dzia³anie w powy¿szej bibliotece opiera siê g³ównie na dodawaniu i usuwaniu odpowiednich elementów okienka, przez co u¿ytkownik ma wra¿enie jakby korzysta³ z ró¿nych podstron na stronie internetowej. Jeœli chodzi o tworzenie zestawów fiszek oraz ich przechowywanie, do tego celu zosta³y wykorzystane proste, niewielkiego rozmiaru s³ownikowe bazy danych JSON.\par
+\begin{center}
+  \fbox{\includegraphics[width=0.5\textwidth]{tkinter}}
+\end{center}
+Zdecydowa³em siê na pracê w bibliotece Tkinter ze wzglêdu na prostotê tego narzêdzia, dobre przystosowanie do tego konkretnego zadania oraz na wczeœniejsz¹ stycznoœæ z tym rozwi¹zaniem oraz dobre wspomnienia z nim zwi¹zane.
+
+
+\newpage
+\section{Szczegó³owy opis projektu}
+\subsection{Menu g³ówne}
+W menu g³ównym, u¿ytkownik ma do wyboru kilka przycisków odnosz¹cych siê do bardziej rozwiniêtych elementów aplikacji. Ponadto, mo¿emy zauwa¿yæ tak¿e nazwê ca³ej aplikacji - FISZING. 
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{menu}}
+\end{center}
+
+Z kwestii czysto technicznych, strona g³ówna jest pierwszym oknem po inicjalizacji aplikacji. Program tworzy instancjê klasy \textbf{FlashcardsApp} i przekazuje do niej obiekt \textbf{root}, jako g³ówny widget biblioteki Tkinter. W funkcji inicjalizacyjnej znajduj¹ siê tak¿e fragmenty kodu poœwiêcone konfiguracji okna, zwi¹zane m.in. z tytu³em aplikacji, kolorami czy rozmiarem okna. Ponadto, tworzone s¹ pierwsze przyciski, widoczne na stronie g³ównej, dziêki którym mo¿emy przejœæ do innych "stron", a technicznie patrz¹c, do innych funkcji w kodzie.
+
+
+\subsection{Dodawanie zestawu fiszek}
+\subsubsection{Tworzenie zestawu fiszek}
+Po klikniêciu przycisku \textbf{Utwórz nowy zestaw} u¿ytkownik przechodzi do okna, w którym ma mo¿liwoœæ wpisania nazwy nowego zestawu. Widoczne s¹ równie¿ przyciski do zatwierdzenia nowego zestawu oraz powrotu do strony g³ównej. Aby dodaæ estetyki swojej aplikacji, utworzy³em tak¿e placeholder w polu wprowadzania nazwy nowego zestawu.
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{wprowadzanie_nazwy_zestawu}}
+\end{center}
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{nazwa_wprowadzona}}
+\end{center}
+
+Skupiaj¹c siê na kodzie, po wybraniu przez u¿ytkownika opcji \textbf{Utwórz nowy zestaw} w g³ównym oknie, uruchamiana jest metoda \textbf{make new set}, która tworzy pole do wpisania nazwy zestawu, a tak¿e zarz¹dza placeholderem. Tak jak by³o wspomniane we wstêpie, biblioteka Tkinter opiera siê na usuwaniu i wyœwietlaniu odpowiednich elementów. W tej metodzie usuwane s¹ wszystkie przyciski ze strony g³ównej, aby klikniêcie powodowa³o przejœcie do pozornie "nowej strony".
+
+\subsubsection{Dodawanie pojêæ do nowoutworzonego zestawu}
+Po zatwierdzeniu nazwy u¿ytkownik otrzymuje mo¿liwoœæ do wpisywania pojêæ oraz definicji do nowoutworzonego zestawu. Po potwierdzeniu has³a, powstaje okienko, które wyœwietla obecnie zawarte pojêcia i ich definicje w danym zestawie.
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{wprowadzanie_pojec}}
+\end{center}
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{wprowadzone_pojecia}}
+\end{center}
+
+Potwierdzenie nazwy zestawu uruchamia funkcjê \textbf{create new set}, dziêki której tworzony jest nowy plik JSON przechowywuj¹cy pojêcia i definicje, a tak¿e wyœwietlane s¹ nowe pole do wpisywania hase³.
+\par 
+Po zatwierdzeniu has³a kod przechodzi do metody \textbf{add flashcard}, która pobiera (get) wpisane pojêcia, zapisuje je do zestawu (zarówno do pliku JSON jak i do okienka, które wyœwietla siê po zatwierdzenia has³a), a po wszystkim czysci pola inputu has³a. Metoda ta dodatkowo uruchamia metody \textbf{save flashcards} oraz \textbf{set in frame} odpowiedzialne odpowiednio za dopisywania has³a do pliku JSON oraz tworzenie ramki z pojêciami i wypisywanie do niej tych pojêæ.
+
+\subsection{Dodawanie pojêæ do istniej¹cego zestawu}
+Aby dodaæ pojêcia do zestawu, który zosta³ stworzony wczeœniej, u¿ytkownik korzysta z przycisku \textbf{Dodaj fiszki do zestawu} na stronie g³ównej. Nastêpnie wyœwietla siê okno wyboru zestawu, a po podjêciu decyzji, w którym zestawie maj¹ byæ dodane nowe has³a, wyœwietla siê okno analogiczne do tego, które pojawia³o siê po utworzeniu nowego zestawu.
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{wybor_zestawu}}
+\end{center}
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{dodawanie_pojecia}}
+\end{center}
+
+Patrz¹c pod wzglêdem kodu, najpierw program przechodzi do funkcji \textbf{see all sets}, która jak sama nazwa wskazuje wyœwietla u¿ytkownikowi wszystkie zestawy (przy jednoczesnym usuwaniu odpowiednich przycisków). Za pomoc¹ utworzonych w tej funkcji przycisków u¿ytkownik ma mo¿liwoœæ przejœcia do kolejnej funkcji - \textbf{show set flashcards}, która jako argument wejœciowy przyjmuje nazwê zestawu i pozwala na dodawanie nowych pojêæ do danego setu oraz wyœwietla wszystkie pojêcia w ramce.
+
+
+
+\subsection{Usuwanie fiszek oraz zestawów fiszek}
+W takiej aplikacji konieczne jest równie¿ udostêpnienie mo¿liwoœci do usuwania zbêdnych fiszek z okreœlonych zestawów, jak i pozbywanie siê ca³ych setów hase³. Za pomoc¹ przycisku \textbf{Usun..} u¿ytkownik przechodzi do wyboru czy ma zamiar usun¹æ konkretn¹ fiszkê z danego zestawu czy ca³y zestaw. 
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{wybor_usuwanie}}
+\end{center}
+
+Program przechodz¹c do przycisku \textbf{Usun...} uruchamia funkcjê \textbf{delete screen}, która ukrywa przyciski ze strony g³ównej oraz tworzy przyciski do wy¿ej opisanego wyboru.
+
+\subsubsection{Usuwanie zestawu}
+Jedn¹ z opcji jest usuwanie ca³ego zestawu fiszek. U¿ytkownik otrzymuje listê przycisków, dla ka¿dego zestawu. Dodatkowo, utworzone zosta³y informacyjne message boxy, które zapobiegaj¹ przypadkowym usuniêciom zestawów.
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{usuwanie_zestawu}}
+\end{center}
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{usunieto_zestaw}}
+\end{center}
+
+
+\subsubsection{Usuwanie poszczególnych pojêæ z zestawu}
+hfghfghfghfg
+
+\subsection{Nauka fiszek}
+gfgfg
+\subsection{Weryfikacja wiedzy - rozwi¹zywanie quizów}
+gfgfgf
+
+\section{Potencjalny rozwój projektu}
+gfhgfgf
+
+\section{Wnioski i podsumowanie}
+fdfdfar
+\end{document}
