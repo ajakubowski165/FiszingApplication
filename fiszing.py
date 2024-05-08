@@ -17,35 +17,22 @@ class FlashcardsApp:
         self.flashcards = {}
         self.current_flashcards_filename = None
 
-        self.scrollable_frame = tk.Frame(master, bg="#789c84")
-        self.scrollable_frame.pack(fill="both", expand=True)
-
-        self.canvas = tk.Canvas(self.scrollable_frame, bg="#789c84")
-        self.canvas.pack(side="left", fill="both", expand=True)
-
-        self.main_frame = tk.Frame(self.canvas, bg="#789c84")
-        self.canvas.create_window((0, 0), window=self.main_frame, anchor="nw")
-
-        self.scrollbar = tk.Scrollbar(self.scrollable_frame, orient="vertical", command=self.canvas.yview)
-        self.scrollbar.pack(side="right", fill="y")
-        self.canvas.config(yscrollcommand=self.scrollbar.set)
-
-        self.label = tk.Label(self.main_frame, text="FISZING", font=("Jokerman", 100), bg="#789c84")
+        self.label = tk.Label(master, text="FISZING", font=("Jokerman", 100), bg="#789c84")
         self.label.pack(pady=20)
         
-        self.lets_fiszing_button = tk.Button(self.main_frame, text="Zacznij FISZING!", command=self.show_all_sets_to_learn, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
-        self.lets_fiszing_button.pack()
+        self.lets_fiszing_button = tk.Button(master, text="Zacznij FISZING!", command=self.show_all_sets_to_learn, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
+        self.lets_fiszing_button.pack(pady=(25, 0))
 
-        self.solve_quiz_button = tk.Button(self.main_frame, text="Rozwiaz quiz", command=self.solve_quiz, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
-        self.solve_quiz_button.pack(padx=((screen_width/2.85)))
+        self.solve_quiz_button = tk.Button(master, text="Rozwiaz quiz", command=self.solve_quiz, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
+        self.solve_quiz_button.pack()  
 
-        self.new_set_button = tk.Button(self.main_frame, text="Utwórz nowy zestaw", command=self.make_new_set, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
+        self.new_set_button = tk.Button(master, text="Utwórz nowy zestaw", command=self.make_new_set, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.new_set_button.pack()
 
-        self.see_all_sets_button = tk.Button(self.main_frame, text="Dodaj fiszki do zestawu", command=self.see_all_sets, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
+        self.see_all_sets_button = tk.Button(master, text="Dodaj fiszki do zestawu", command=self.see_all_sets, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.see_all_sets_button.pack()
 
-        self.delete_button = tk.Button(self.main_frame, text="Usun...", command=self.delete_screen, font=("Centaur", 30, "bold"), bg="lightgreen", width=25)
+        self.delete_button = tk.Button(master, text="Usun...", command=self.delete_screen, font=("Centaur", 30, "bold"),bg="lightgreen", width=25)
         self.delete_button.pack()
 
         self.name_entry = None
@@ -64,16 +51,10 @@ class FlashcardsApp:
         self.current_question = None
         self.correct_answer = None
         self.selected_answer = None
-    
-        self.main_frame.bind("<Configure>", self.on_frame_configure)
-
-    def on_frame_configure(self, event):
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
 
     def solve_quiz(self):
         # Usuń wszystkie elementy z ekranu, z wyjątkiem przycisku "Let's Fiszing"
-        for widget in self.main_frame.winfo_children():
+        for widget in self.master.winfo_children():
             if widget != self.label:
                 widget.pack_forget()
 
@@ -83,12 +64,12 @@ class FlashcardsApp:
         # Tworzenie przycisków dla każdego zestawu fiszek
         for filename in flashcard_files:
             set_name = filename.replace("_flashcards.json", "")
-            set_button = tk.Button(self.main_frame, text=set_name, command=lambda name=set_name: self.start_quiz(name), font=("Centaur", 30), bg="lightgreen", width=25)
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.start_quiz(name), font=("Centaur", 30), bg="lightgreen", width=25)
             set_button.pack()
             self.set_buttons.append(set_button)
 
         # Dodanie przycisku powrotu do ekranu głównego
-        self.return_button = tk.Button(self.main_frame, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
         self.return_button.pack(pady=25)
 
     def start_quiz(self, set_name):
@@ -96,7 +77,7 @@ class FlashcardsApp:
         self.remove_set_buttons()
 
         # Wyświetlenie nazwy zestawu
-        set_label = tk.Label(self.main_frame, text=set_name.upper(), font=("Jokerman", 30, "bold"), bg="#789c84")
+        set_label = tk.Label(self.master, text=set_name.upper(), font=("Jokerman", 30, "bold"), bg="#789c84")
         set_label.pack()
 
         # Ustawienie bieżącego pliku fiszek na wybrany zestaw
@@ -136,7 +117,7 @@ class FlashcardsApp:
             random.shuffle(answers)
 
             # Utwórz ramkę dla pytania i odpowiedzi
-            self.quiz_frame = tk.Frame(self.main_frame, bg="#789c84")
+            self.quiz_frame = tk.Frame(self.master, bg="#789c84")
             self.quiz_frame.pack(pady=20)
 
             # Wyświetl licznik pytania
@@ -158,7 +139,7 @@ class FlashcardsApp:
             self.answer_buttons = answer_buttons
         else:
             # Zakończ quiz i wyświetl wynik
-            self.quiz_frame = tk.Frame(self.main_frame, bg="#789c84")
+            self.quiz_frame = tk.Frame(self.master, bg="#789c84")
             self.quiz_frame.pack(pady=20)
 
             result_label = tk.Label(self.quiz_frame, text="Koniec quizu!", font=("Jokerman", 30), bg="#789c84")
@@ -174,7 +155,7 @@ class FlashcardsApp:
             self.return_button.pack_forget()
 
             # Dodaj przycisk powrotu do ekranu głównego
-            self.return_button = tk.Button(self.main_frame, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+            self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
             self.return_button.pack(pady=25)
 
     def check_answer(self, selected_answer):
@@ -197,7 +178,7 @@ class FlashcardsApp:
 
     def clear_screen(self):
         # Usunięcie wszystkich elementów z ekranu
-        for widget in self.main_frame.winfo_children():
+        for widget in self.master.winfo_children():
             widget.pack_forget()
 
     def load_flashcards(self):
@@ -219,13 +200,13 @@ class FlashcardsApp:
 
         # Wyświetlenie przycisków na ekranie głównym
         self.label.pack(pady=20)
-        self.solve_quiz_button.pack(padx=((screen_width/2.85)))
+        self.solve_quiz_button.pack(pady=(25, 0))
         self.new_set_button.pack()
         self.see_all_sets_button.pack()
 
     def show_all_sets_to_learn(self):
         # Usuń wszystkie elementy z ekranu, z wyjątkiem przycisku "Let's Fiszing"
-        for widget in self.main_frame.winfo_children():
+        for widget in self.master.winfo_children():
             if widget != self.label:
                 widget.pack_forget()
 
@@ -235,12 +216,12 @@ class FlashcardsApp:
         # Tworzenie przycisków dla każdego zestawu fiszek
         for filename in flashcard_files:
             set_name = filename.replace("_flashcards.json", "")
-            set_button = tk.Button(self.main_frame, text=set_name, command=lambda name=set_name: self.show_learning_frame(name), font=("Centaur", 30),bg="lightgreen", width=25)
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.show_learning_frame(name), font=("Centaur", 30),bg="lightgreen", width=25)
             set_button.pack()
             self.set_buttons.append(set_button)
         
         # Dodanie przycisku powrotu do ekranu głównego
-        self.return_button = tk.Button(self.main_frame, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
         self.return_button.pack(pady=25)
 
     def show_learning_frame(self, set_name):
@@ -249,7 +230,7 @@ class FlashcardsApp:
             button.pack_forget()
 
         # Zainicjuj ramkę do nauki
-        self.learning_frame = tk.Frame(self.main_frame, bg="#789c84")
+        self.learning_frame = tk.Frame(self.master, bg="#789c84")
         self.learning_frame.pack(fill=tk.BOTH, expand=True)
 
         # Ustawienia dotyczące pojęć do nauki
@@ -323,17 +304,19 @@ class FlashcardsApp:
             messagebox.showinfo("Info", result_message)
             self.learning_frame.destroy()
 
+
+
     def make_new_set(self):
-        self.name_entry = tk.Entry(self.main_frame, font=("Centaur", 30), width=25)
+        self.name_entry = tk.Entry(self.master, font=("Centaur", 30), width=25)
         self.name_entry.insert(0, "Wprowadz nazwe zestawu...")
         self.name_entry.bind("<FocusIn>", self.clear_placeholder)
         self.name_entry.bind("<FocusOut>", self.restore_placeholder)
         self.name_entry.pack(pady=30)
 
-        self.confirm_button = tk.Button(self.main_frame, text="Zatwierdz", command=self.create_new_set, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.confirm_button = tk.Button(self.master, text="Zatwierdz", command=self.create_new_set, font=("Centaur", 30),bg="lightgreen", width=25)
         self.confirm_button.pack()
 
-        self.return_button = tk.Button(self.main_frame, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
         self.return_button.pack(pady=25)
 
         self.new_set_button.pack_forget()  # Ukryj przycisk "Make a new set of cards"
@@ -349,13 +332,13 @@ class FlashcardsApp:
         self.lets_fiszing_button.pack_forget()
         self.solve_quiz_button.pack_forget()
 
-        self.delete_set_button = tk.Button(self.main_frame, text="Usun zestaw", command=self.show_delete_sets, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.delete_set_button = tk.Button(self.master, text="Usun zestaw", command=self.show_delete_sets, font=("Centaur", 30),bg="lightgreen", width=25)
         self.delete_set_button.pack(pady=(25, 0))
 
-        self.delete_cards_button = tk.Button(self.main_frame, text="Usun konkretne fiszki z zestawu", command=self.delete_cards, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.delete_cards_button = tk.Button(self.master, text="Usun konkretne fiszki z zestawu", command=self.delete_cards, font=("Centaur", 30),bg="lightgreen", width=25)
         self.delete_cards_button.pack()
 
-        self.return_button = tk.Button(self.main_frame, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
         self.return_button.pack(pady=25)
 
     
@@ -371,11 +354,11 @@ class FlashcardsApp:
 
         for filename in flashcard_files:
             set_name = filename.replace("_flashcards.json", "")
-            set_button = tk.Button(self.main_frame, text=set_name, command=lambda name=set_name: self.confirm_delete_set(name), font=("Centaur", 30),bg="lightgreen", width=25)
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.confirm_delete_set(name), font=("Centaur", 30),bg="lightgreen", width=25)
             set_button.pack()
             self.set_buttons.append(set_button)
 
-        self.return_button = tk.Button(self.main_frame, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
         self.return_button.pack(pady=25)
 
     
@@ -413,11 +396,11 @@ class FlashcardsApp:
 
         for filename in flashcard_files:
             set_name = filename.replace("_flashcards.json", "")
-            set_button = tk.Button(self.main_frame, text=set_name, command=lambda name=set_name: self.show_set_flashcards_delete(name), font=("Centaur", 30),bg="lightgreen", width=25)
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.show_set_flashcards_delete(name), font=("Centaur", 30),bg="lightgreen", width=25)
             set_button.pack()
             self.set_buttons.append(set_button)
 
-        self.return_button = tk.Button(self.main_frame, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
         self.return_button.pack(pady=25)
 
     def show_set_flashcards_delete(self, set_name):
@@ -430,18 +413,14 @@ class FlashcardsApp:
             self.set_label.pack_forget()
 
         # Wyświetlenie nazwy zestawu
-        self.set_label = tk.Label(self.main_frame, text=set_name.upper(), font=("Jokerman", 30, "bold"), bg="#789c84")
+        self.set_label = tk.Label(self.master, text=set_name.upper(), font=("Jokerman", 30, "bold"), bg="#789c84")
         self.set_label.pack()
 
         # Ustawienie bieżącego pliku fiszek na wybrany zestaw
         self.current_flashcards_filename = f"{set_name}_flashcards.json"
         self.flashcards = self.load_flashcards()
-
-        # Wyświetlenie pojęć z wybranego zestawu jako przycisków
-        for term, definition in self.flashcards.items():
-            flashcard_button = tk.Button(self.main_frame, text=f"{term}: {definition}", command=lambda t=term: self.delete_flashcard(t), font=("Centaur", 15), bg="lightgreen", width=20)
-            flashcard_button.pack(pady=5)
-            self.set_buttons.append(flashcard_button)
+        
+        self.delete_flashcard_in_frame()
 
     def delete_flashcard(self, term):
         # Usunięcie pojęcia z aktualnego zestawu
@@ -495,22 +474,22 @@ class FlashcardsApp:
             self.solve_quiz_button.pack_forget()
             self.lets_fiszing_button.pack_forget()
 
-            self.term_entry = tk.Entry(self.main_frame, font=("Centaur", 20))
+            self.term_entry = tk.Entry(self.master, font=("Centaur", 20))
             self.term_entry.insert(0, "Wprowadz pojecie...")
             self.term_entry.bind("<FocusIn>", self.clear_placeholder)
             self.term_entry.bind("<FocusOut>", self.restore_placeholder)
             self.term_entry.pack(pady=10)
 
-            self.definition_entry = tk.Entry(self.main_frame, font=("Centaur", 20))
+            self.definition_entry = tk.Entry(self.master, font=("Centaur", 20))
             self.definition_entry.insert(0, "Wprowadz definicje...")
             self.definition_entry.bind("<FocusIn>", self.clear_placeholder)
             self.definition_entry.bind("<FocusOut>", self.restore_placeholder)
             self.definition_entry.pack(pady=10)
 
-            self.confirm_button = tk.Button(self.main_frame, text="Zatwierdz", command=self.add_flashcard, font=("Centaur", 30),bg="lightgreen", width=25)
+            self.confirm_button = tk.Button(self.master, text="Zatwierdz", command=self.add_flashcard, font=("Centaur", 30),bg="lightgreen", width=25)
             self.confirm_button.pack()
 
-            self.return_button = tk.Button(self.main_frame, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+            self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
             self.return_button.pack(pady=25)
 
     def add_flashcard(self):
@@ -540,24 +519,52 @@ class FlashcardsApp:
                 json.dump(self.flashcards, file)
 
     def return_to_main_window(self):
-        screen_width = self.main_frame.winfo_screenwidth()
         # Usuń wszystkie elementy z ekranu, z wyjątkiem przycisków "Make a new set of cards" i "See all sets"
-        for widget in self.main_frame.winfo_children():
+        for widget in self.master.winfo_children():
             if widget not in [self.new_set_button, self.see_all_sets_button, self.label, self.lets_fiszing_button]:
                 widget.pack_forget()
 
         # Wyświetl przyciski "Make a new set of cards" i "See all sets", jeśli nie są już na ekranie
         if self.lets_fiszing_button.winfo_ismapped() == 0:
-            self.lets_fiszing_button.pack(padx=((screen_width/2.85)))
+            self.lets_fiszing_button.pack()
         if self.solve_quiz_button.winfo_ismapped() == 0:
-            self.solve_quiz_button.pack(padx=((screen_width/2.85)))
+            self.solve_quiz_button.pack()
         if self.new_set_button.winfo_ismapped() == 0:
-            self.new_set_button.pack(padx=((screen_width/2.85)))
+            self.new_set_button.pack()
         if self.see_all_sets_button.winfo_ismapped() == 0:
-            self.see_all_sets_button.pack(padx=((screen_width/2.85)))
+            self.see_all_sets_button.pack()
         if self.delete_button.winfo_ismapped() == 0:
-            self.delete_button.pack(padx=((screen_width/2.85)))
+            self.delete_button.pack()
    
+    def delete_flashcard_in_frame(self):
+        # Jeśli ramka nie istnieje, utwórz nową
+        self.scroll_frame = tk.Frame(self.master, bg="lightgreen", width=600, height=400)
+        self.scroll_frame.pack(pady=20)
+
+        # Utwórz canvas i scrollbar jako dzieci ramki scroll_frame
+        canvas = tk.Canvas(self.scroll_frame, bg="lightgreen")
+        scrollbar = tk.Scrollbar(self.scroll_frame, orient=tk.VERTICAL, command=canvas.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        # Ustaw canvas jako ramkę, którą będzie przewijać pasek przewijania
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        # Utwórz ramkę dla pojęć, która będzie umieszczona na canvasie
+        flashcards_frame = tk.Frame(canvas, bg="lightgreen")
+
+        # Ustaw canvas tak, aby zawierał ramkę z pojęciami
+        canvas.create_window((0, 0), window=flashcards_frame, anchor=tk.NW)
+
+        # Powiąż przeskalowanie obszaru canvasa z jego zawartością
+        flashcards_frame.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        # Wyświetlenie pojęć z wybranego zestawu w ramce
+        for term, definition in self.flashcards.items():
+            flashcard_button = tk.Button(flashcards_frame, text=f"{term}: {definition}", command=lambda t=term: self.delete_flashcard(t), font=("Centaur", 15), bg="lightgreen", width=40)
+            flashcard_button.pack(pady=5)
+            self.set_buttons.append(flashcard_button)
+
 
     def set_in_frame(self):
         # Sprawdzenie, czy istnieje ramka scroll_frame
@@ -567,7 +574,7 @@ class FlashcardsApp:
                 widget.destroy()
         else:
             # Jeśli ramka nie istnieje, utwórz nową
-            self.scroll_frame = tk.Frame(self.main_frame, bg="lightgreen", width=600, height=400)
+            self.scroll_frame = tk.Frame(self.master, bg="lightgreen", width=600, height=400)
             self.scroll_frame.pack(pady=20)
 
         # Utwórz canvas i scrollbar jako dzieci ramki scroll_frame
@@ -608,12 +615,12 @@ class FlashcardsApp:
         # Tworzenie przycisków dla każdego zestawu fiszek
         for filename in flashcard_files:
             set_name = filename.replace("_flashcards.json", "")
-            set_button = tk.Button(self.main_frame, text=set_name, command=lambda name=set_name: self.show_set_flashcards(name), font=("Centaur", 30),bg="lightgreen", width=25)
+            set_button = tk.Button(self.master, text=set_name, command=lambda name=set_name: self.show_set_flashcards(name), font=("Centaur", 30),bg="lightgreen", width=25)
             set_button.pack()
             self.set_buttons.append(set_button)
         
         # Dodanie przycisku powrotu do ekranu głównego
-        self.return_button = tk.Button(self.main_frame, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
         self.return_button.pack(pady=25)
 
 
@@ -623,29 +630,29 @@ class FlashcardsApp:
         self.return_button.pack_forget()
 
         # Wyświetlenie nazwy zestawu
-        set_label = tk.Label(self.main_frame, text=set_name.upper(), font=("Jokerman", 30, "bold"), bg="#789c84")
+        set_label = tk.Label(self.master, text=set_name.upper(), font=("Jokerman", 30, "bold"), bg="#789c84")
         set_label.pack()
 
         # Ustawienie bieżącego pliku fiszek na wybrany zestaw
         self.current_flashcards_filename = f"{set_name}_flashcards.json"
         self.flashcards = self.load_flashcards()
 
-        self.term_entry = tk.Entry(self.main_frame, font=("Centaur", 20))
+        self.term_entry = tk.Entry(self.master, font=("Centaur", 20))
         self.term_entry.insert(0, "Wprowadz pojecie...")
         self.term_entry.bind("<FocusIn>", self.clear_placeholder)
         self.term_entry.bind("<FocusOut>", self.restore_placeholder)
         self.term_entry.pack(pady=10)
 
-        self.definition_entry = tk.Entry(self.main_frame, font=("Centaur", 20))
+        self.definition_entry = tk.Entry(self.master, font=("Centaur", 20))
         self.definition_entry.insert(0, "Wprowadz definicje...")
         self.definition_entry.bind("<FocusIn>", self.clear_placeholder)
         self.definition_entry.bind("<FocusOut>", self.restore_placeholder)
         self.definition_entry.pack(pady=10)
 
-        self.confirm_button = tk.Button(self.main_frame, text="Zatwierdz", command=self.add_flashcard, font=("Centaur", 30),bg="lightgreen", width=25)
+        self.confirm_button = tk.Button(self.master, text="Zatwierdz", command=self.add_flashcard, font=("Centaur", 30),bg="lightgreen", width=25)
         self.confirm_button.pack()
 
-        self.return_button = tk.Button(self.main_frame, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
+        self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
         self.return_button.pack(pady=25)
 
 
