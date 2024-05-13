@@ -11,7 +11,7 @@
 \contentsline {subsection}{\numberline {3.4}Usuwanie fiszek oraz zestaw\'ow fiszek}{8}{}%
 \contentsline {subsubsection}{\numberline {3.4.1}Usuwanie zestawu}{8}{}%
 \contentsline {subsubsection}{\numberline {3.4.2}Usuwanie poszczeg\'olnych poj\k e\'c z zestawu}{9}{}%
-\contentsline {subsection}{\numberline {3.5}Nauka fiszek}{9}{}%
-\contentsline {subsection}{\numberline {3.6}Weryfikacja wiedzy - rozwi\k azywanie quiz\'ow}{9}{}%
-\contentsline {section}{\numberline {4}Potencjalny rozw\'oj projektu}{9}{}%
-\contentsline {section}{\numberline {5}Wnioski i podsumowanie}{10}{}%
+\contentsline {subsection}{\numberline {3.5}Nauka fiszek}{10}{}%
+\contentsline {subsection}{\numberline {3.6}Weryfikacja wiedzy - rozwi\k azywanie quiz\'ow}{12}{}%
+\contentsline {section}{\numberline {4}Potencjalny rozw\'oj projektu}{13}{}%
+\contentsline {section}{\numberline {5}Wnioski i podsumowanie}{13}{}%

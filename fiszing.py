@@ -188,12 +188,6 @@ class FlashcardsApp:
         else:
             return {}
 
-    def remove_set_buttons(self):
-        # Usunięcie przycisków dla zestawów
-        for button in self.set_buttons:
-            button.pack_forget()
-        self.set_buttons.clear()
-
     def return_to_main_window(self):
         # Usunięcie wszystkich elementów z ekranu
         self.clear_screen()
@@ -537,8 +531,7 @@ class FlashcardsApp:
             self.delete_button.pack()
    
     def delete_flashcard_in_frame(self):
-        # Jeśli ramka nie istnieje, utwórz nową
-        self.scroll_frame = tk.Frame(self.master, bg="lightgreen", width=600, height=400)
+        self.scroll_frame = tk.Frame(self.master, bg="lightgreen", width=1200, height=400)
         self.scroll_frame.pack(pady=20)
 
         # Utwórz canvas i scrollbar jako dzieci ramki scroll_frame
@@ -551,7 +544,7 @@ class FlashcardsApp:
         canvas.configure(yscrollcommand=scrollbar.set)
 
         # Utwórz ramkę dla pojęć, która będzie umieszczona na canvasie
-        flashcards_frame = tk.Frame(canvas, bg="lightgreen")
+        flashcards_frame = tk.Frame(canvas, bg="lightgreen", width=1200, height=400)
 
         # Ustaw canvas tak, aby zawierał ramkę z pojęciami
         canvas.create_window((0, 0), window=flashcards_frame, anchor=tk.NW)
@@ -561,8 +554,8 @@ class FlashcardsApp:
 
         # Wyświetlenie pojęć z wybranego zestawu w ramce
         for term, definition in self.flashcards.items():
-            flashcard_button = tk.Button(flashcards_frame, text=f"{term}: {definition}", command=lambda t=term: self.delete_flashcard(t), font=("Centaur", 15), bg="lightgreen", width=40)
-            flashcard_button.pack(pady=5)
+            flashcard_button = tk.Button(flashcards_frame, text=f"{term}: {definition}", command=lambda t=term: self.delete_flashcard(t), font=("Centaur", 12), bg="lightgreen", width=42)
+            flashcard_button.pack()
             self.set_buttons.append(flashcard_button)
 
 
@@ -574,7 +567,7 @@ class FlashcardsApp:
                 widget.destroy()
         else:
             # Jeśli ramka nie istnieje, utwórz nową
-            self.scroll_frame = tk.Frame(self.master, bg="lightgreen", width=600, height=400)
+            self.scroll_frame = tk.Frame(self.master, bg="lightgreen", width=800, height=400)
             self.scroll_frame.pack(pady=20)
 
         # Utwórz canvas i scrollbar jako dzieci ramki scroll_frame

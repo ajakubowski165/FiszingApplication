@@ -137,12 +137,49 @@ Jedn¹ z opcji jest usuwanie ca³ego zestawu fiszek. U¿ytkownik otrzymuje listê pr
   \fbox{\includegraphics[width=0.9\textwidth]{usunieto_zestaw}}
 \end{center}
 
+Po wyborze przycisku \textbf{Usun...} uruchamiana jest funkcja \textbf{delete screen}. Po tym, u¿ytkownik wybieraj¹c opcje \textbf{Usun zestaw}, która przechodzi do funkcji \textbf{show delete sets}. Dziêki temu, osoba korzystaj¹ca z aplikacji ma mo¿liwoœæ wyboru zestawu do usuniêcia, a gdy dokona wyboru, wyœwietlany jest messagebox z pytaniem upewniaj¹cym, ¿e jest to czyn zamierzony. Ponadto usuwany jest plik JSON dla danego pliku. Dzieje siê to kolejno za pomoc¹ funkcji \textbf{confirm delete set} oraz \textbf{delete set}.
+
 
 \subsubsection{Usuwanie poszczególnych pojêæ z zestawu}
-hfghfghfghfg
+Poza usuniêciem ca³ego zestawu, u¿ytkownik ma mo¿liwoœæ usuniêcia poszczególnych fiszek z wybranego zestawu. Podobnie jak w poprzednim przypadku, u¿ytkownik najpierw wybiera zestaw, z którego chce usun¹æ fiszki, a nastêpnie wyœwietlana jest ramka z przyciskami odpowiadaj¹cymi konkretnemu pojêciu. Po klikniêciu wybranego hasla, usuwane jest ono z bazy, a ramka z przyciskami jest odœwie¿ana. W tym przypadku, pominiêto funkcjê messageboxów, gdy¿ potencjalna przypadkowa utrata pojedynczego has³a w bazie nie jest tak drastyczna. Ponadto, brak okienek dialogowych potwierdzaj¹cych dzia³anie, przyspiesza proces usuwania wiêkszej iloœci fiszek.
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{pojecia_do_usuniecia}}
+\end{center}
+
+
+Pod wzglêdem kodu, pocz¹tek dzia³ania jest analogiczny do czynnoœci usuwania ca³ego zestawu. Zadanie polegaj¹ce na usuwaniu poszczególnych pojêæ zestawu rozpoczyna siê w funkcji \textbf{delete cards}, gdzie u¿ytkownik wybiera zestaw, z którego chce usun¹æ fiszki. Nastêpnie w metodzie \textbf{show set flashcards delete} wyœwietlana jest nazwa zestawu oraz nastêpuje odwo³anie do funkcji \textbf{delete flashcard in frame}, gdzie tworzona jest ramka wraz z przyciskami, które odpowiadaj¹ konkretnym pojêciom. Ostatecznie, usuwane jest pojêcie i definicja z bazy danych za spraw¹ metody \textbf{delete flashcard}.
+
 
 \subsection{Nauka fiszek}
-gfgfg
+Najwa¿niejszym zadaniem ca³ej aplikacji jest nauka na podstawie "wirtualnych fiszek". U¿ytkownik dziêki aplikacji ma mo¿liwoœæ uczyæ siê poprzez swoiste "odwracanie" fiszki, a nastêpnie zaznaczanie czy dane pojêcie zosta³o przez niego przyswojone czy jednak wymaga powtórki. Osoba ucz¹ca siê mo¿e w ten sposób dowiedzieæ siê ile hase³ nale¿y powtórzyæ, aby osi¹gn¹æ stuprocentow¹ wiedzê z danego zakresu.
+
+Podobnie, jak w wiêkszoœci poprzednich funkcjonalnoœci aplikacji, korzystaj¹cy najpierw ma do wyboru zestaw, z którego chce siê uczyæ. Po wyborze, wyœwietla siê g³ówne okno s³u¿¹ce do nauki. Zawiera ono nazwê zestawu, licznik zagadnieñ oraz liczbê pojêæ, które u¿ytkownik potrafi zapamiêtaæ oraz iloœæ pojêæ do powtórzenia. Ponadto, na samym œrodku jest du¿y przycisk, który s³u¿y do "odwracania" pojêcia, a tak¿e dwa dodatkowe przyciski, dziêki którym korzystaj¹cy okreœla znajomoœæ danego has³a.
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{fiszka_przod}}
+\end{center}
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{fiszka_tyl}}
+\end{center}
+
+
+U¿ytkownik przechodzi do kolejnego pojêcia poprzez wybór jednego z przycisków umiem/nie umiem. Iterowany jest tak¿e numer pojêcia oraz zwiêkszana jest liczba jednego z liczników s³u¿¹cych do wyœwietlania hase³ przyswojonych oraz do powtórzenia.
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{fiszki_przebieg}}
+\end{center}
+
+Po dojœciu do koñca zestawu, wyœwietla siê krótkie podsumowanie ukazuj¹ce liczbê pojêæ, które u¿ytkownik potrafi oraz tych, które wymagaj¹ dalszej nauki.
+
+\begin{center}
+  \fbox{\includegraphics[width=0.9\textwidth]{wynik_fiszek}}
+\end{center}
+
+
+
+
 \subsection{Weryfikacja wiedzy - rozwi¹zywanie quizów}
 gfgfgf
 

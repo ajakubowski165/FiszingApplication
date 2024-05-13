@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.3) (preloaded format=pdflatex 2022.3.27)  6 MAY 2024 14:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.3) (preloaded format=pdflatex 2022.3.27)  13 MAY 2024 12:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -523,26 +523,56 @@ File: ./images//usunieto_zestaw.png Graphic file (type png)
 Package pdftex.def Info: ./images//usunieto_zestaw.png  used on input line 137.
 
 (pdftex.def)             Requested size: 396.91325pt x 172.49702pt.
-[9 <./images//usuwanie_zestawu.png> <./images//usunieto_zestaw.png>] [10]
-(Jakubowski - USWB Projekt.aux) ) 
+[9 <./images//usuwanie_zestawu.png> <./images//usunieto_zestaw.png>]
+<./images//pojecia_do_usuniecia.png, id=60, 1330.9725pt x 708.39656pt>
+File: ./images//pojecia_do_usuniecia.png Graphic file (type png)
+<use ./images//pojecia_do_usuniecia.png>
+Package pdftex.def Info: ./images//pojecia_do_usuniecia.png  used on input line
+ 147.
+(pdftex.def)             Requested size: 396.91325pt x 211.2451pt.
+ [10 <./images//pojecia_do_usuniecia.png>]
+<./images//fiszka_przod.png, id=65, 1140.05925pt x 597.432pt>
+File: ./images//fiszka_przod.png Graphic file (type png)
+<use ./images//fiszka_przod.png>
+Package pdftex.def Info: ./images//fiszka_przod.png  used on input line 160.
+(pdftex.def)             Requested size: 396.91325pt x 208.00128pt.
+<./images//fiszka_tyl.png, id=66, 1142.46825pt x 594.42075pt>
+File: ./images//fiszka_tyl.png Graphic file (type png)
+<use ./images//fiszka_tyl.png>
+Package pdftex.def Info: ./images//fiszka_tyl.png  used on input line 164.
+(pdftex.def)             Requested size: 396.91325pt x 206.50845pt.
+<./images//fiszki_przebieg.png, id=67, 1136.44576pt x 592.01175pt>
+File: ./images//fiszki_przebieg.png Graphic file (type png)
+<use ./images//fiszki_przebieg.png>
+Package pdftex.def Info: ./images//fiszki_przebieg.png  used on input line 171.
+
+(pdftex.def)             Requested size: 396.91325pt x 206.76457pt.
+ [11 <./images//fiszka_przod.png> <./images//fiszka_tyl.png>]
+<./images//wynik_fiszek.png, id=73, 144.54pt x 121.05225pt>
+File: ./images//wynik_fiszek.png Graphic file (type png)
+<use ./images//wynik_fiszek.png>
+Package pdftex.def Info: ./images//wynik_fiszek.png  used on input line 177.
+(pdftex.def)             Requested size: 396.91325pt x 332.4329pt.
+ [12 <./images//fiszki_przebieg.png> <./images//wynik_fiszek.png>] [13] (Jakubo
+wski - USWB Projekt.aux) ) 
 Here is how much of TeX's memory you used:
- 6032 strings out of 478582
- 96736 string characters out of 2844344
+ 6087 strings out of 478582
+ 98330 string characters out of 2844344
  492440 words of memory out of 3000000
- 24114 multiletter control sequences out of 15000+600000
+ 24169 multiletter control sequences out of 15000+600000
  478517 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,6n,77p,747b,205s stack positions out of 10000i,1000n,20000p,200000b,80000s
-{C:/Users/48788/AppData/Local/Programs/MiKTeX/
-fonts/enc/dvips/pl/plrm.enc}{C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts
-/enc/dvips/pl/plsc.enc}<C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/pl/plbx12.pfb><C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/pl/plcsc10.pfb><C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts/typ
-e1/public/pl/plr12.pfb><C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/pl/plr17.pfb>
-Output written on "Jakubowski - USWB Projekt.pdf" (11 pages, 759472 bytes).
+{C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts/e
+nc/dvips/pl/plrm.enc}{C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts/enc/dv
+ips/pl/plsc.enc}<C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/pl/plbx12.pfb><C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/pl/plcsc10.pfb><C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/pl/plr12.pfb><C:/Users/48788/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/pl/plr17.pfb>
+Output written on "Jakubowski - USWB Projekt.pdf" (14 pages, 1152588 bytes).
 PDF statistics:
- 83 PDF objects out of 1000 (max. 8388607)
+ 103 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 86 words of extra memory for PDF output out of 10000 (max. 10000000)
 
