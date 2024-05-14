@@ -9,6 +9,7 @@
 \usepackage{amsmath,amssymb,fancyhdr,array}
 \usepackage{setspace}
 \usepackage[a4paper, top=25mm, bottom=25mm, left=30mm, right=25mm]{geometry}
+\usepackage{url}
 \setstretch{1.5}
 \usepackage{lipsum}
 \usepackage{xcolor}
@@ -55,10 +56,14 @@ G³ównym zadaniem takiej aplikacji jest mo¿liwoœæ tworzenia w³asnych zestawów fis
 
 \subsection{Metodologia}
 Spoœród g¹szcza narzêdzi oraz jêzyków programowania, dziêki którym móg³bym utworzyæ moj¹ aplikacjê, zdecydowa³em siê na jêzyk Python, a dok³adnie na bibliotekê Tkinter, która pozwala na tworzenie prostych interfejsów graficznych. Umo¿liwia tworzenie okien, przycisków, etykiet i innych elementów interfejsu. Dzia³anie w powy¿szej bibliotece opiera siê g³ównie na dodawaniu i usuwaniu odpowiednich elementów okienka, przez co u¿ytkownik ma wra¿enie jakby korzysta³ z ró¿nych podstron na stronie internetowej. Jeœli chodzi o tworzenie zestawów fiszek oraz ich przechowywanie, do tego celu zosta³y wykorzystane proste, niewielkiego rozmiaru s³ownikowe bazy danych JSON.\par
-\begin{center}
+
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.5\textwidth]{tkinter}}
-\end{center}
-Zdecydowa³em siê na pracê w bibliotece Tkinter ze wzglêdu na prostotê tego narzêdzia, dobre przystosowanie do tego konkretnego zadania oraz na wczeœniejsz¹ stycznoœæ z tym rozwi¹zaniem oraz dobre wspomnienia z nim zwi¹zane.
+  \caption{Biblioteka Tkinter}
+\end{figure}
+
+Zdecydowa³em siê na pracê w bibliotece Tkinter ze wzglêdu na prostotê tego narzêdzia, dobre przystosowanie do tego konkretnego zadania oraz na wczeœniejsz¹ stycznoœæ z tym rozwi¹zaniem i id¹ce za tym dobre wspomnienia z nim zwi¹zane.
 
 
 \newpage
@@ -66,9 +71,11 @@ Zdecydowa³em siê na pracê w bibliotece Tkinter ze wzglêdu na prostotê tego narzê
 \subsection{Menu g³ówne}
 W menu g³ównym, u¿ytkownik ma do wyboru kilka przycisków odnosz¹cych siê do bardziej rozwiniêtych elementów aplikacji. Ponadto, mo¿emy zauwa¿yæ tak¿e nazwê ca³ej aplikacji - FISZING. 
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{menu}}
-\end{center}
+  \caption{Ekran g³ówny aplikacji}
+\end{figure}
 
 Z kwestii czysto technicznych, strona g³ówna jest pierwszym oknem po inicjalizacji aplikacji. Program tworzy instancjê klasy \textbf{FlashcardsApp} i przekazuje do niej obiekt \textbf{root}, jako g³ówny widget biblioteki Tkinter. W funkcji inicjalizacyjnej znajduj¹ siê tak¿e fragmenty kodu poœwiêcone konfiguracji okna, zwi¹zane m.in. z tytu³em aplikacji, kolorami czy rozmiarem okna. Ponadto, tworzone s¹ pierwsze przyciski, widoczne na stronie g³ównej, dziêki którym mo¿emy przejœæ do innych "stron", a technicznie patrz¹c, do innych funkcji w kodzie.
 
@@ -77,26 +84,36 @@ Z kwestii czysto technicznych, strona g³ówna jest pierwszym oknem po inicjalizac
 \subsubsection{Tworzenie zestawu fiszek}
 Po klikniêciu przycisku \textbf{Utwórz nowy zestaw} u¿ytkownik przechodzi do okna, w którym ma mo¿liwoœæ wpisania nazwy nowego zestawu. Widoczne s¹ równie¿ przyciski do zatwierdzenia nowego zestawu oraz powrotu do strony g³ównej. Aby dodaæ estetyki swojej aplikacji, utworzy³em tak¿e placeholder w polu wprowadzania nazwy nowego zestawu.
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{wprowadzanie_nazwy_zestawu}}
-\end{center}
+  \caption{Ekran wprowadzania nazwy zestawu}
+\end{figure}
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{nazwa_wprowadzona}}
-\end{center}
+  \caption{Wprowadzona nazwa zestawu}
+\end{figure}
+
 
 Skupiaj¹c siê na kodzie, po wybraniu przez u¿ytkownika opcji \textbf{Utwórz nowy zestaw} w g³ównym oknie, uruchamiana jest metoda \textbf{make new set}, która tworzy pole do wpisania nazwy zestawu, a tak¿e zarz¹dza placeholderem. Tak jak by³o wspomniane we wstêpie, biblioteka Tkinter opiera siê na usuwaniu i wyœwietlaniu odpowiednich elementów. W tej metodzie usuwane s¹ wszystkie przyciski ze strony g³ównej, aby klikniêcie powodowa³o przejœcie do pozornie "nowej strony".
 
 \subsubsection{Dodawanie pojêæ do nowoutworzonego zestawu}
 Po zatwierdzeniu nazwy u¿ytkownik otrzymuje mo¿liwoœæ do wpisywania pojêæ oraz definicji do nowoutworzonego zestawu. Po potwierdzeniu has³a, powstaje okienko, które wyœwietla obecnie zawarte pojêcia i ich definicje w danym zestawie.
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{wprowadzanie_pojec}}
-\end{center}
+  \caption{Ekran wprowadzania pojêæ i definicji do zestawu}
+\end{figure}
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{wprowadzone_pojecia}}
-\end{center}
+  \caption{Wprowadzone pojêcia i definicje wraz z wyœwietlaniem obecnych hase³ w zestawie}
+\end{figure}
+
 
 Potwierdzenie nazwy zestawu uruchamia funkcjê \textbf{create new set}, dziêki której tworzony jest nowy plik JSON przechowywuj¹cy pojêcia i definicje, a tak¿e wyœwietlane s¹ nowe pole do wpisywania hase³.
 \par 
@@ -105,13 +122,20 @@ Po zatwierdzeniu has³a kod przechodzi do metody \textbf{add flashcard}, która po
 \subsection{Dodawanie pojêæ do istniej¹cego zestawu}
 Aby dodaæ pojêcia do zestawu, który zosta³ stworzony wczeœniej, u¿ytkownik korzysta z przycisku \textbf{Dodaj fiszki do zestawu} na stronie g³ównej. Nastêpnie wyœwietla siê okno wyboru zestawu, a po podjêciu decyzji, w którym zestawie maj¹ byæ dodane nowe has³a, wyœwietla siê okno analogiczne do tego, które pojawia³o siê po utworzeniu nowego zestawu.
 
-\begin{center}
-  \fbox{\includegraphics[width=0.9\textwidth]{wybor_zestawu}}
-\end{center}
 
-\begin{center}
+\begin{figure}[h]
+  \centering
+  \fbox{\includegraphics[width=0.9\textwidth]{wybor_zestawu}}
+  \caption{Ekran wyboru zestawu}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{dodawanie_pojecia}}
-\end{center}
+  \caption{Dodawanie pojêcia do istniejacego zestawu wraz z wyœwietleniem obecnych hase³ w zestawie}
+\end{figure}
+
+
 
 Patrz¹c pod wzglêdem kodu, najpierw program przechodzi do funkcji \textbf{see all sets}, która jak sama nazwa wskazuje wyœwietla u¿ytkownikowi wszystkie zestawy (przy jednoczesnym usuwaniu odpowiednich przycisków). Za pomoc¹ utworzonych w tej funkcji przycisków u¿ytkownik ma mo¿liwoœæ przejœcia do kolejnej funkcji - \textbf{show set flashcards}, która jako argument wejœciowy przyjmuje nazwê zestawu i pozwala na dodawanie nowych pojêæ do danego setu oraz wyœwietla wszystkie pojêcia w ramce.
 
@@ -120,22 +144,31 @@ Patrz¹c pod wzglêdem kodu, najpierw program przechodzi do funkcji \textbf{see al
 \subsection{Usuwanie fiszek oraz zestawów fiszek}
 W takiej aplikacji konieczne jest równie¿ udostêpnienie mo¿liwoœci do usuwania zbêdnych fiszek z okreœlonych zestawów, jak i pozbywanie siê ca³ych setów hase³. Za pomoc¹ przycisku \textbf{Usun..} u¿ytkownik przechodzi do wyboru czy ma zamiar usun¹æ konkretn¹ fiszkê z danego zestawu czy ca³y zestaw. 
 
-\begin{center}
+
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{wybor_usuwanie}}
-\end{center}
+  \caption{Wybór opcji usuwania}
+\end{figure}
+
 
 Program przechodz¹c do przycisku \textbf{Usun...} uruchamia funkcjê \textbf{delete screen}, która ukrywa przyciski ze strony g³ównej oraz tworzy przyciski do wy¿ej opisanego wyboru.
 
 \subsubsection{Usuwanie zestawu}
 Jedn¹ z opcji jest usuwanie ca³ego zestawu fiszek. U¿ytkownik otrzymuje listê przycisków, dla ka¿dego zestawu. Dodatkowo, utworzone zosta³y informacyjne message boxy, które zapobiegaj¹ przypadkowym usuniêciom zestawów.
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{usuwanie_zestawu}}
-\end{center}
+  \caption{Okno dialogowe dotycz¹ce usuwania zestawu fiszek}
+\end{figure}
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{usunieto_zestaw}}
-\end{center}
+  \caption{Komunikat po usuniêciu zestawu}
+\end{figure}
+
 
 Po wyborze przycisku \textbf{Usun...} uruchamiana jest funkcja \textbf{delete screen}. Po tym, u¿ytkownik wybieraj¹c opcje \textbf{Usun zestaw}, która przechodzi do funkcji \textbf{show delete sets}. Dziêki temu, osoba korzystaj¹ca z aplikacji ma mo¿liwoœæ wyboru zestawu do usuniêcia, a gdy dokona wyboru, wyœwietlany jest messagebox z pytaniem upewniaj¹cym, ¿e jest to czyn zamierzony. Ponadto usuwany jest plik JSON dla danego pliku. Dzieje siê to kolejno za pomoc¹ funkcji \textbf{confirm delete set} oraz \textbf{delete set}.
 
@@ -143,9 +176,11 @@ Po wyborze przycisku \textbf{Usun...} uruchamiana jest funkcja \textbf{delete sc
 \subsubsection{Usuwanie poszczególnych pojêæ z zestawu}
 Poza usuniêciem ca³ego zestawu, u¿ytkownik ma mo¿liwoœæ usuniêcia poszczególnych fiszek z wybranego zestawu. Podobnie jak w poprzednim przypadku, u¿ytkownik najpierw wybiera zestaw, z którego chce usun¹æ fiszki, a nastêpnie wyœwietlana jest ramka z przyciskami odpowiadaj¹cymi konkretnemu pojêciu. Po klikniêciu wybranego hasla, usuwane jest ono z bazy, a ramka z przyciskami jest odœwie¿ana. W tym przypadku, pominiêto funkcjê messageboxów, gdy¿ potencjalna przypadkowa utrata pojedynczego has³a w bazie nie jest tak drastyczna. Ponadto, brak okienek dialogowych potwierdzaj¹cych dzia³anie, przyspiesza proces usuwania wiêkszej iloœci fiszek.
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{pojecia_do_usuniecia}}
-\end{center}
+  \caption{Ekran usuwania poszczególnych pojêæ z zestawu}
+\end{figure}
 
 
 Pod wzglêdem kodu, pocz¹tek dzia³ania jest analogiczny do czynnoœci usuwania ca³ego zestawu. Zadanie polegaj¹ce na usuwaniu poszczególnych pojêæ zestawu rozpoczyna siê w funkcji \textbf{delete cards}, gdzie u¿ytkownik wybiera zestaw, z którego chce usun¹æ fiszki. Nastêpnie w metodzie \textbf{show set flashcards delete} wyœwietlana jest nazwa zestawu oraz nastêpuje odwo³anie do funkcji \textbf{delete flashcard in frame}, gdzie tworzona jest ramka wraz z przyciskami, które odpowiadaj¹ konkretnym pojêciom. Ostatecznie, usuwane jest pojêcie i definicja z bazy danych za spraw¹ metody \textbf{delete flashcard}.
@@ -156,36 +191,98 @@ Najwa¿niejszym zadaniem ca³ej aplikacji jest nauka na podstawie "wirtualnych fis
 
 Podobnie, jak w wiêkszoœci poprzednich funkcjonalnoœci aplikacji, korzystaj¹cy najpierw ma do wyboru zestaw, z którego chce siê uczyæ. Po wyborze, wyœwietla siê g³ówne okno s³u¿¹ce do nauki. Zawiera ono nazwê zestawu, licznik zagadnieñ oraz liczbê pojêæ, które u¿ytkownik potrafi zapamiêtaæ oraz iloœæ pojêæ do powtórzenia. Ponadto, na samym œrodku jest du¿y przycisk, który s³u¿y do "odwracania" pojêcia, a tak¿e dwa dodatkowe przyciski, dziêki którym korzystaj¹cy okreœla znajomoœæ danego has³a.
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{fiszka_przod}}
-\end{center}
+  \caption{Ekran nauki fiszek}
+\end{figure}
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{fiszka_tyl}}
-\end{center}
+  \caption{Ekran nauki fiszek z odwrócon¹ fiszk¹}
+\end{figure}
 
 
 U¿ytkownik przechodzi do kolejnego pojêcia poprzez wybór jednego z przycisków umiem/nie umiem. Iterowany jest tak¿e numer pojêcia oraz zwiêkszana jest liczba jednego z liczników s³u¿¹cych do wyœwietlania hase³ przyswojonych oraz do powtórzenia.
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{fiszki_przebieg}}
-\end{center}
+  \caption{Przebieg nauki fiszek}
+\end{figure}
 
 Po dojœciu do koñca zestawu, wyœwietla siê krótkie podsumowanie ukazuj¹ce liczbê pojêæ, które u¿ytkownik potrafi oraz tych, które wymagaj¹ dalszej nauki.
 
-\begin{center}
+\begin{figure}[h]
+  \centering
   \fbox{\includegraphics[width=0.9\textwidth]{wynik_fiszek}}
-\end{center}
+  \caption{Komunikat po zakoñczeniu zestawu}
+\end{figure}
 
 
-
+Pod wzglêdem samego kodu, funkcjonalnoœæ zwi¹zana z nauk¹ okaza³a siê byæ najbardziej zawi³¹ z ca³ej aplikacji, poprzez mnogoœæ funkcji obs³uguj¹cych ka¿dy, czasami bardzo drobny element, taki jak np. odwrócenie fiszki czy zwiêkszenie licznika pojêæ, które u¿ytkownik zna/nie zna.\par
+G³ówn¹ funkcj¹ jest \textbf{show learning frame}, do której program przechodzi po wyborze zestawu (funkcja przyjmuje równie¿ wybrany zestaw jako argument). Tam ukrywane s¹ przyciski zestawów, a tworzone s¹ etykiety wyœwietlaj¹ce m.in. licznik pytañ czy samo pojêcie. Co wiêcej, powy¿sza metoda ukazuje przyciski do "odwracania" fiszki oraz do okreœlenia jej znajomoœci.\par
+W funkcjach \textbf{on know click} i \textbf{on dont know click} iterowany jest licznik pojêæ odpowiednio znanych i nieznanych przez u¿ytkownika. W tych metodach istnieje tak¿e odwo³anie do funkcji \textbf{next flashcard}, która zmienia pojêcie na g³ównym przycisku, a w przypadku zakoñczenia zestawu, wyœwietla wynik. \par
+W fragmentach kodu poœwiêconych nauce fiszek mo¿na wyró¿niæ jeszcze funkcjê \textbf{flip flashcard}, która jak sama nazwa wskazuje zamienia pojêcie na jego definicje, powoduj¹c imitacjê odwrócenia fiszki.
 
 \subsection{Weryfikacja wiedzy - rozwi¹zywanie quizów}
-gfgfgf
+Tak jak wspomniano powy¿ej, g³ównym celem aplikacji jest mo¿liwoœæ nauki wczeœniej zapisanych pojêæ, jednak¿e czym jest skuteczna nauka bez jej weryfikacji. Z tego powodu, stworzono prostego rodzaju quiz, który wyœwietla pytanie (pojêcie) i cztery odpowiedzi (definicje - jedn¹ poprawn¹ i trzy losowe b³êdne z tego samego zestawu). 
+
+\begin{figure}[h]
+  \centering
+  \fbox{\includegraphics[width=0.9\textwidth]{quiz}}
+  \caption{Ekran g³ówny quizu}
+\end{figure}
+
+W celu ci¹g³ej kontroli swojej wiedzy, postanowiono wyœwietlaæ messageboxy po ka¿dej odpowiedzi. Ukazuj¹ one czy odpowiedŸ jest prawid³owa, a gdy tak nie jest, to u¿ytkownik widzi równie¿ poprawn¹ odpowiedŸ.
+
+\begin{figure}[h]
+  \centering
+  \fbox{\includegraphics[width=0.9\textwidth]{quiz_poprawnie}}
+  \caption{Komunikat o poprawnej odpowiedzi w quizie}
+\end{figure}
+
+
+\begin{figure}[h]
+  \centering
+  \fbox{\includegraphics[width=0.7\textwidth]{quiz_niepoprawnie}}
+  \caption{Komunikat o niepoprawnej odpowiedzi w quizie}
+\end{figure}
+
+Po ostatnim pytaniu w quizie osobie rozwi¹zuj¹cej ukazuje siê wynik koñcowy w postaci procentowej. Dziêki takiemu rozwi¹zaniu u¿ytkownik mo¿e okreœliæ czy uda³oby mu siê zdaæ potencjalny test lub po prostu stwierdziæ, ¿e posiadana wiedza jest wystarczaj¹ca.
+
+\begin{figure}[h]
+  \centering
+  \fbox{\includegraphics[width=0.9\textwidth]{quiz_summary}}
+  \caption{Wyœwietlenie wyniku po zakoñczonym quizie}
+\end{figure}
+
+
+Z perspektywy kodu, pocz¹tek polega na tym samym co w wiêkszoœci przypadków - wypisanie zestawów i wybór tego, którego ma dotyczyæ quiz. Dzieje siê to w funkcji \textbf{solve quiz}, której g³ównym zadaniem jest wyœwietlenie przycisków zestawów, a nastêpnie odniesienie do metody \textbf{start quiz} z argumentem bêd¹cym nazw¹ zestawu. Jest to najwa¿niejsza funkcja jeœli chodzi o quizy w aplikacji, poniewa¿ wywo³uje ona metody \textbf{prepare questions} i \textbf{show next question}, odpowiedzialne kolejno za przygotowanie listy losowych pytañ z zestawu oraz zarz¹dzanie wyœwietlaniem pytañ, odpowiedzi oraz warunkami stopu. Niezwykle przydatna okaza³a siê w tym elemencie funkcja shuffle, która pozwoli³a nam losowaæ listê pytañ oraz odpowiedzi. Program, po tym jak u¿ytkownik wybra³ odpowiedŸ, przechodzi³ do funkcji \textbf{check answer}, w której sprawdzano poprawnoœæ odpowiedzi oraz iterowano licznik odpowiedzi prawid³owych.
+
 
 \section{Potencjalny rozwój projektu}
-gfhgfgf
+Choæ biblioteka Tkinter posiada szerokie spectrum mo¿liwoœci i jest wzglêdnie prosta w zastosowaniu, ma jednak swoje wady. Najwiêksz¹ wad¹ jest trudnoœæ w tworzeniu responsywnych okien graficznych. Utworzona aplikacja niestety nie posiada dynamicznych wielkoœci swoich elementów i jest sztywno przystosowana pod dan¹ rozdzielczoœæ ekranu, co by³oby g³ównym za³o¿eniem dalszego rozwoju projektu. 
+Minusem aplikacji jest tak¿e brak scrollbara na ca³ym oknie. Okaza³o siê to bardzo trudne do implementacji maj¹c ju¿ wykonane wiêkszoœæ projektu. Z racji tego niestety istnieje maksymalna iloœæ np. przycisków zestawu, które bêd¹ widoczne na ekranie. 
+Powy¿sze aspekty pomog³yby w wydajnoœci i przejrzystoœci aplikacji maj¹cej obecn¹ iloœæ funkcjonalnoœci, jednak mo¿na poruszyæ tak¿e kwestie potencjalnych elementów, które ulepszy³yby aplikacjê w przysz³oœci. \par
+Bardzo ciekawym pomys³em by³aby umiejêtnoœæ zapisywania w bazie danych wyników swojej nauki czy quizów, a nastêpnie porównywanie swojego postêpu w nauce na przestrzeni czasu. Blblioteka Tkinter posiada mo¿liwoœci wyœwietlania wykresów, wiêc zdolnoœæ wyœwietlania wykresów prezentuj¹cych iloœæ nauczonych pojêæ przy ka¿dym powtórzeniu quizu/nauki by³oby interesuj¹cym aspektem dla wielu u¿ytkowników.\par
+Patrz¹c pod k¹tem nauczycieli korzystaj¹cych z aplikacji, bardzo efektywnym dodatkiem mog³aby byæ mo¿liwoœæ eksportu utworzonych zestawów hase³ czy quizów w postaci plików z rozszerzeniem docx lub pdf. Dziêki takiej funkcjonalnoœci nauczyciele mieliby mo¿liwoœæ szybkiego generowania materia³ów na swoje zajêcia.
 
 \section{Wnioski i podsumowanie}
-fdfdfar
+Projekt z przedmiotu \textbf{Us³ugi sieciowe w biznesie} da³ nam szerokie mo¿liwoœci rozwoju, równie¿ w kwestiach bli¿szych naszym zainteresowaniom z powodu mo¿liwoœci swobodnego wyboru tematu. Korzystaj¹c z tej mo¿liwoœci postanowi³em stworzyæ aplikacjê, która s³u¿y mi na codzieñ i która jest dobrym polem do dalszego rozwoju w zakresie jêzyka Python, a w szczególnoœci biblioteki Tkinter.\par
+Aplikacja spe³nia swoje za³o¿enia, gdy¿ daje u¿ytkownikowi mo¿liwoœæ tworzenia w³asnych zestawów fiszek, a nastêpnie nauki z nich. U¿ytkownicy mog¹ równie¿ wykorzystywaæ funkcjonalnoœæ rozwi¹zywania quizów w celu weryfikacji nabytej wiedzy.\par 
+Pod wzglêdem technicznym, dziêki temu projektowi uda³o mi siê pog³êbiæ wiedzê z zakresu jêzyka Python, ze zdecydowanym naciskiem na bibliotekê Tkinter. By³ to równie¿ projekt wymagaj¹cy analitycznego myœlenia, aby zrozumieæ istotê dzia³ania tej aplikacji i dostosowaæ kolejno wyœwietlaj¹ce siê i ukrywane przedmioty. Sama implementacja nie by³a nad wyraz skomplikowana, gdy¿ istnieje wiele poradników dotycz¹cych tej¿e biblioteki, a element raz napisany, czêsto powiela³ siê w projekcie. Najtrudniejsze dla mnie okaza³o siê tworzenie okienek ze scrollbarem, przy których ostatecznie poleg³em próbuj¹c tworzyæ scrollbar dla ca³ego okna. \par
+Gwoli podsumowania, opisana powy¿ej aplikacja pozwoli³a mi pog³êbiæ wiedzê z jêzyka Python, który jest jednym z kluczowych technologii dla analityka danych. Dziêki projektowi, nie tylko dokona³em postêpu jeœli chodzi o moje umiejêtnoœci programistyczne czy analityczne, ale tak¿e utworzy³em prost¹ aplikacjê codziennego u¿ytku, dziêki której mogê nabywaæ wiedzê z ró¿nych dziedzin.
+
+
+\section{ród³a i pomoce}
+\begin{itemize}
+  \item \textit{\url{www.youtube.com/watch?v=0WafQCaok6g&t=315s}}
+  \item \textit{\url{akademiapython.pl/niech-tego-dotkna-tkinter-od-podstaw}}
+  \item \textit{\url{www.youtube.com/watch?v=KJhZKnFNNYM}}
+  \item \textit{\url{www.youtube.com/watch?v=BckVJoE94Lk&t=362s}}
+\end{itemize}
+
+
 \end{document}

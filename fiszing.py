@@ -53,7 +53,6 @@ class FlashcardsApp:
         self.selected_answer = None
 
     def solve_quiz(self):
-        # Usuń wszystkie elementy z ekranu, z wyjątkiem przycisku "Let's Fiszing"
         for widget in self.master.winfo_children():
             if widget != self.label:
                 widget.pack_forget()
@@ -171,10 +170,6 @@ class FlashcardsApp:
     def disable_answer_buttons(self):
         for button in self.answer_buttons:
             button.config(state=tk.DISABLED)
-
-    def calculate_score(self):
-        score_percentage = (self.num_correct / self.num_flashcards) * 100  # Użyj self.num_correct do obliczenia wyniku
-        return f"{score_percentage:.1f}%"
 
     def clear_screen(self):
         # Usunięcie wszystkich elementów z ekranu
