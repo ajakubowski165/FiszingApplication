@@ -3,16 +3,17 @@
 \contentsline {subsection}{\numberline {2.1}Cel projektu}{2}{}%
 \contentsline {subsection}{\numberline {2.2}Metodologia}{3}{}%
 \contentsline {section}{\numberline {3}Szczeg\'o\IeC {\l }owy opis projektu}{4}{}%
-\contentsline {subsection}{\numberline {3.1}Menu g\IeC {\l }\'owne}{4}{}%
-\contentsline {subsection}{\numberline {3.2}Dodawanie zestawu fiszek}{4}{}%
-\contentsline {subsubsection}{\numberline {3.2.1}Tworzenie zestawu fiszek}{4}{}%
-\contentsline {subsubsection}{\numberline {3.2.2}Dodawanie poj\k e\'c do nowoutworzonego zestawu}{5}{}%
-\contentsline {subsection}{\numberline {3.3}Dodawanie poj\k e\'c do istniej\k acego zestawu}{7}{}%
-\contentsline {subsection}{\numberline {3.4}Usuwanie fiszek oraz zestaw\'ow fiszek}{7}{}%
-\contentsline {subsubsection}{\numberline {3.4.1}Usuwanie zestawu}{8}{}%
-\contentsline {subsubsection}{\numberline {3.4.2}Usuwanie poszczeg\'olnych poj\k e\'c z zestawu}{9}{}%
-\contentsline {subsection}{\numberline {3.5}Nauka fiszek}{10}{}%
-\contentsline {subsection}{\numberline {3.6}Weryfikacja wiedzy - rozwi\k azywanie quiz\'ow}{13}{}%
+\contentsline {subsection}{\numberline {3.1}U\.zyte biblioteki}{4}{}%
+\contentsline {subsection}{\numberline {3.2}Menu g\IeC {\l }\'owne}{4}{}%
+\contentsline {subsection}{\numberline {3.3}Dodawanie zestawu fiszek}{5}{}%
+\contentsline {subsubsection}{\numberline {3.3.1}Tworzenie zestawu fiszek}{5}{}%
+\contentsline {subsubsection}{\numberline {3.3.2}Dodawanie poj\k e\'c do nowoutworzonego zestawu}{6}{}%
+\contentsline {subsection}{\numberline {3.4}Dodawanie poj\k e\'c do istniej\k acego zestawu}{7}{}%
+\contentsline {subsection}{\numberline {3.5}Usuwanie fiszek oraz zestaw\'ow fiszek}{8}{}%
+\contentsline {subsubsection}{\numberline {3.5.1}Usuwanie zestawu}{8}{}%
+\contentsline {subsubsection}{\numberline {3.5.2}Usuwanie poszczeg\'olnych poj\k e\'c z zestawu}{9}{}%
+\contentsline {subsection}{\numberline {3.6}Nauka fiszek}{11}{}%
+\contentsline {subsection}{\numberline {3.7}Weryfikacja wiedzy - rozwi\k azywanie quiz\'ow}{12}{}%
 \contentsline {section}{\numberline {4}Potencjalny rozw\'oj projektu}{14}{}%
-\contentsline {section}{\numberline {5}Wnioski i podsumowanie}{16}{}%
-\contentsline {section}{\numberline {6}\'Zr\'od\IeC {\l }a i pomoce}{17}{}%
+\contentsline {section}{\numberline {5}Wnioski i podsumowanie}{15}{}%
+\contentsline {section}{\numberline {6}\'Zr\'od\IeC {\l }a i pomoce}{16}{}%
