@@ -95,6 +95,7 @@ class FlashcardsApp:
 
 
     def prepare_questions(self):
+        self.num_correct = 0
         # Przygotowanie listy pytań z zestawu fiszek
         self.questions = list(self.flashcards.items())
         random.shuffle(self.questions)  # Losowa kolejność pytań
@@ -124,15 +125,15 @@ class FlashcardsApp:
             self.quiz_frame = tk.Frame(self.master, bg="#789c84")
             self.quiz_frame.pack(pady=20)
 
-            # Wyświetl licznik pytania
+            # Wyświetlanie licznika pytan
             question_counter_label = tk.Label(self.quiz_frame, text=f"Pytanie {self.current_question_index}/{len(self.questions)}:", font=("Centaur", 20), bg="#789c84")
             question_counter_label.pack()
 
-            # Wyświetl pytanie
+            # Wyświetlanie pytania
             question_label = tk.Label(self.quiz_frame, text=f"Pytanie: {self.current_question}", font=("Centaur", 20), bg="#789c84")
             question_label.pack(pady=10)
 
-            # Wyświetl odpowiedzi jako przyciski
+            # Wyświetlanie odpowiedzi jako przyciski
             answer_buttons = []
             for x, answer in enumerate(answers):
                 button = tk.Button(self.quiz_frame, text=f"{chr(65+x)}. {answer}", font=("Centaur", 15), bg="lightgreen", width=45, command=lambda a=answer: self.check_answer(a))
@@ -154,11 +155,11 @@ class FlashcardsApp:
             score_label = tk.Label(self.quiz_frame, text=f"Twój wynik: {score_percentage:.1f}%", font=("Centaur", 20), bg="#789c84")
             score_label.pack(pady=10)
 
-            # Usuń przyciski zestawów i przycisk powrotu
+            # Usuwanie przyciski zestawów i przycisk powrotu
             self.remove_set_buttons()
             self.return_button.pack_forget()
 
-            # Dodaj przycisk powrotu do ekranu głównego
+            # Dodawanie przycisku powrotu do ekranu głównego
             self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
             self.return_button.pack(pady=25)
 
@@ -173,7 +174,7 @@ class FlashcardsApp:
             messagebox.showinfo("Wynik", f"Odpowiedź niepoprawna! Poprawna odpowiedź to: {self.correct_answer}")
         self.show_next_question()
 
-    # Załaduj fiszki z zestawu
+    # Załadowanie fiszek z zestawu
     def load_flashcards(self):
         if self.current_flashcards_filename and os.path.exists(self.current_flashcards_filename):
             with open(self.current_flashcards_filename, "r") as file:
@@ -183,7 +184,7 @@ class FlashcardsApp:
 
 
     def show_all_sets_to_learn(self):
-        # Usuń wszystkie elementy z ekranu, z wyjątkiem tytułu
+        # Usuwanie wszystkich elementów z ekranu, z wyjątkiem tytułu
         for widget in self.master.winfo_children():
             if widget != self.label:
                 widget.pack_forget()
@@ -208,7 +209,7 @@ class FlashcardsApp:
         for button in self.set_buttons:
             button.pack_forget()
 
-        # Zainicjuj ramkę do nauki
+        # Inicjacja ramki do nauki
         self.learning_frame = tk.Frame(self.master, bg="#789c84")
         self.learning_frame.pack(fill=tk.BOTH, expand=True)
 
@@ -357,7 +358,7 @@ class FlashcardsApp:
         else:
             messagebox.showerror("Error", f"Zestaw '{set_name}' nie istnieje.")
         
-        # Usuń przycisk zestawu z listy przycisków
+        # Usuwanie przycisków zestawu z listy przycisków
         for button in self.set_buttons:
             if button.cget("text") == set_name:
                 button.destroy()
@@ -373,7 +374,7 @@ class FlashcardsApp:
         self.return_button.pack_forget()
         self.lets_fiszing_button.pack_forget()
 
-        # Pobierz listę plików zestawów fiszek
+        # Pobieranie listy plików zestawów fiszek
         flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
 
         for filename in flashcard_files:
@@ -504,7 +505,7 @@ class FlashcardsApp:
             self.save_flashcards()
             self.set_in_frame()
 
-            # Wyczyść wprowadzone wartości
+            # Czyszczenie wprowadzonych wartości
             self.term_entry.delete(0, tk.END)
             self.definition_entry.delete(0, tk.END)
         
@@ -524,12 +525,10 @@ class FlashcardsApp:
 
 
     def return_to_main_window(self):
-        # Usuń wszystkie elementy z ekranu, z wyjątkiem przycisków "Make a new set of cards" i "See all sets"
         for widget in self.master.winfo_children():
             if widget not in [self.new_set_button, self.see_all_sets_button, self.label, self.lets_fiszing_button]:
                 widget.pack_forget()
 
-        # Wyświetl przyciski "Make a new set of cards" i "See all sets", jeśli nie są już na ekranie
         if self.lets_fiszing_button.winfo_ismapped() == 0:
             self.lets_fiszing_button.pack()
         if self.solve_quiz_button.winfo_ismapped() == 0:
@@ -549,27 +548,28 @@ class FlashcardsApp:
             # Jeśli ramka istnieje, usuń wszystkie elementy wewnątrz niej
             for widget in self.scroll_frame.winfo_children():
                 widget.destroy()
+            self.scroll_frame.pack(pady=20)
         else:
             # Jeśli ramka nie istnieje, utwórz nową
             self.scroll_frame = tk.Frame(self.master, bg="lightgreen", width=800, height=400)
             self.scroll_frame.pack(pady=20)
 
-        # Utwórz canvas i scrollbar jako dzieci ramki scroll_frame
+        # Tworzenie canvas i scrollbar jako dzieci ramki scroll_frame
         canvas = tk.Canvas(self.scroll_frame, bg="lightgreen")
         scrollbar = tk.Scrollbar(self.scroll_frame, orient=tk.VERTICAL, command=canvas.yview)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-        # Ustaw canvas jako ramkę, którą będzie przewijać pasek przewijania
+        # Ustawienie canvas jako ramkę, którą będzie przewijać pasek przewijania
         canvas.configure(yscrollcommand=scrollbar.set)
 
-        # Utwórz ramkę dla pojęć, która będzie umieszczona na canvasie
+        # Tworzenie ramki dla pojęć, która będzie umieszczona na canvasie
         flashcards_frame = tk.Frame(canvas, bg="lightgreen")
 
-        # Ustaw canvas tak, aby zawierał ramkę z pojęciami
+        # Ustawienie canvas tak, aby zawierał ramkę z pojęciami
         canvas.create_window((0, 0), window=flashcards_frame, anchor=tk.NW)
 
-        # Powiąż przeskalowanie obszaru canvasa z jego zawartością
+        # Powiązanie obszaru canvasa z jego zawartością
         flashcards_frame.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
 
         # Wyświetlenie pojęć z wybranego zestawu w ramce
@@ -586,7 +586,7 @@ class FlashcardsApp:
         self.lets_fiszing_button.pack_forget()
         self.solve_quiz_button.pack_forget()
         
-        # Pobranie listy plików fiszek w katalogu bieżącym
+        # Pobieranie listy plików fiszek w katalogu bieżącym
         flashcard_files = [filename for filename in os.listdir() if filename.endswith("_flashcards.json")]
 
         # Tworzenie przycisków dla każdego zestawu fiszek
@@ -596,7 +596,7 @@ class FlashcardsApp:
             set_button.pack()
             self.set_buttons.append(set_button)
         
-        # Dodanie przycisku powrotu do ekranu głównego
+        # Dodawanie przycisku powrotu do ekranu głównego
         self.return_button = tk.Button(self.master, text="Powrót", command=self.return_to_main_window, font=("Centaur", 30), bg="#419745", width=15)
         self.return_button.pack(pady=25)
 
